@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "push-to-3yourmind"
+version = "0.1.0"
+description = "Python library to access 3YOURMIND's API"
+authors = ["Serhii Zavadskyi <sz@3yourmind.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+jupyter = "*"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
