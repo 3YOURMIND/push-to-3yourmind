@@ -10,12 +10,30 @@ __all__ = ["UserPanelAPI"]
 
 
 class UserPanelAPI(BaseAPI):
+    """
+    Groups API functionality from the User Panel, such as creating/updating baskets,
+    placing orders, making requests for quotes, ordering quotes etc.
+    """
+
     def get_baskets(
         self,
         *,
         page: types.OptionalNumber = NoValue,
         page_size: types.OptionalNumber = NoValue,
     ) -> t.List[types.ResponseDict]:
+        """
+        Get all baskets of the current user. Returns paginated list.
+
+        :param page: int, optional
+        :param page_size: int, optional
+        :return: dictionary with the following keys:
+            count: total number of baskets
+            currentPage:
+            totalPages:
+            pageSize: baskets per page
+            results: list of basket details
+        """
+
         query = self._get_parameters(page=page, pageSize=page_size)
         return self._request("GET", "user-panel/baskets/", params=query)
 

@@ -12,12 +12,25 @@ class CommonAPI(BaseAPI):
         return self._request("GET", "colors/")
 
     def get_units(self) -> t.List[types.ResponseDict]:
+        """
+        Get list of units of measure available on the platform.
+        Currently, "mm" and "inch".
+        :return:
+        """
         return self._request("GET", "units/")
 
     def get_countries(self) -> t.List[types.ResponseDict]:
+        """
+        Get list of countries with codes and full names
+        :return:
+        """
         return self._request("GET", "countries/")
 
     def get_currencies(self) -> t.List[str]:
+        """
+        Get list of currencies available on the platform
+        :return:
+        """
         return self._request("GET", "currencies/")
 
     def get_materials(self) -> t.List[types.ResponseDict]:
