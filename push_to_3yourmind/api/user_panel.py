@@ -79,6 +79,9 @@ class UserPanelAPI(BaseAPI):
     def get_basket_line(self, *, basket_id: int, line_id) -> types.ResponseDict:
         return self._request("GET", f"user-panel/baskets/{basket_id}/lines/{line_id}/")
 
+    def create_basket_line(self, *, basket_id: int) -> types.ResponseDict:
+        return self._request("POST", f"user-panel/baskets/{basket_id}/lines/")
+
     def upload_cad_file(
         self,
         *,
