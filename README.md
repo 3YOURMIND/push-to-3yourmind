@@ -27,3 +27,7 @@ basket = client.user_panel.get_basket(basket_id=6)
 # Library Development Guide
 
 [link](./doc/development.md)
+
+# @
+
+Copyright 3YOURMIND GmbH
