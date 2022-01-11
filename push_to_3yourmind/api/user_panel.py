@@ -64,7 +64,7 @@ class UserPanelAPI(BaseAPI):
     def create_basket(self) -> types.ResponseDict:
         return self._request("POST", "user-panel/baskets/")
 
-    def delete_basket(self, *, basket_id: int) -> str:
+    def delete_basket(self, basket_id: int) -> str:
         return self._request("DELETE", f"user-panel/baskets/{basket_id}/")
 
     def update_basket(
@@ -73,21 +73,69 @@ class UserPanelAPI(BaseAPI):
         json = self._get_parameters(title=title)
         return self._request("PATCH", f"user-panel/baskets/{basket_id}/", json=json)
 
-    def get_basket_lines(self, *, basket_id: int) -> t.List[types.ResponseDict]:
+    def get_basket_lines(self, basket_id: int) -> t.List[types.ResponseDict]:
         return self._request("GET", f"user-panel/baskets/{basket_id}/lines/")
 
     def get_basket_line(self, *, basket_id: int, line_id) -> types.ResponseDict:
         return self._request("GET", f"user-panel/baskets/{basket_id}/lines/{line_id}/")
 
-    def create_basket_line(self, *, basket_id: int) -> types.ResponseDict:
+    def create_basket_line(self, basket_id: int) -> types.ResponseDict:
         return self._request("POST", f"user-panel/baskets/{basket_id}/lines/")
+
+    def update_basket_line(
+        self,
+        *,
+        basket_id: int,
+        line_id: int,
+        quantity: types.OptionalNumber = types.NoValue,
+        product_id: types.OptionalNumber = types.NoValue,
+        post_processing_ids: types.OptionalNumberSequence = (),
+    ) -> types.ResponseDict:
+
+        post_processings = [
+            {"postProcessingId": post_processing_id}
+            for post_processing_id in post_processing_ids
+        ]
+
+        json = self._get_parameters(
+            quantity=quantity, offerId=product_id, postProcessings=post_processings
+        )
+        return self._request(
+            "PATCH", f"user-panel/baskets/{basket_id}/lines/{line_id}/", json=json
+        )
+
+    def get_materials(
+        self, *, basket_id: int, line_id: int
+    ) -> t.List[types.ResponseDict]:
+        preferences = self._request("GET", "my-profile/preferences/")
+        country = preferences["country"]
+        query = {"country": country}
+
+        return self._request(
+            "GET",
+            f"user-panel/baskets/{basket_id}/lines/{line_id}/materials/",
+            params=query,
+        )
+
+    def get_products(
+        self, *, basket_id: int, line_id: int, material_id: int
+    ) -> t.List[types.ResponseDict]:
+        preferences = self._request("GET", "my-profile/preferences/")
+        country = preferences["country"]
+        query = {"country": country}
+
+        return self._request(
+            "GET",
+            f"user-panel/baskets/{basket_id}/lines/{line_id}/materials/{material_id}/offers/",
+            params=query,
+        )
 
     def upload_cad_file(
         self,
         *,
         basket_id: int,
         unit: types.Unit,
-        cad_file: t.Union[str, t.IO],
+        cad_file: types.CadFileSpecifier,
         line_id: types.OptionalNumber = types.NoValue,
     ) -> types.ResponseDict:
 
@@ -106,3 +154,39 @@ class UserPanelAPI(BaseAPI):
                 "cad_file argument must be either a path to the CAD file "
                 "or a file-like object"
             )
+
+    def create_line_with_cad_file_and_product(
+        self,
+        *,
+        basket_id: int,
+        cad_file: types.CadFileSpecifier,
+        product_id: int,
+        quantity: int,
+        post_processing_ids: t.Sequence[int] = (),
+    ) -> types.ResponseDict:
+        preferences = self._request("GET", "my-profile/preferences/")
+        unit = preferences["unit"]
+
+        line_response = self.create_basket_line(basket_id=basket_id)
+        line_id = line_response["id"]
+        self.upload_cad_file(
+            basket_id=basket_id, line_id=line_id, unit=unit, cad_file=cad_file
+        )
+
+        return self.update_basket_line(
+            basket_id=basket_id,
+            line_id=line_id,
+            quantity=quantity,
+            product_id=product_id,
+            post_processing_ids=post_processing_ids,
+        )
+
+    def create_request_for_quote(
+        self, *, basket_id: int, supplier_id: int, message: str
+    ) -> types.ResponseDict:
+        json = {
+            "basketId": basket_id,
+            "serviceId": supplier_id,
+            "message": message,
+        }
+        return self._request("POST", f"user-panel/requests-for-quote/", json=json)

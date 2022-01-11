@@ -24,3 +24,15 @@ class ServerError(BasePushTo3YourmindAPIException):
 
 class BadArgument(BasePushTo3YourmindAPIException):
     pass
+
+
+class MaterialNotFound(BasePushTo3YourmindAPIException):
+    pass
+
+
+class PostProcessingNotFound(BasePushTo3YourmindAPIException):
+    pass
+
+
+class SupplierNotFound(BasePushTo3YourmindAPIException):
+    pass
