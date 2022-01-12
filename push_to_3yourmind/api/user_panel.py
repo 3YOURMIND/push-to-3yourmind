@@ -1,3 +1,4 @@
+import decimal
 import typing as t
 from io import IOBase
 
@@ -90,6 +91,7 @@ class UserPanelAPI(BaseAPI):
         quantity: types.OptionalNumber = types.NoValue,
         product_id: types.OptionalNumber = types.NoValue,
         post_processing_ids: types.OptionalNumberSequence = (),
+        max_price: t.Optional[decimal.Decimal] = types.NoValue,
     ) -> types.ResponseDict:
 
         post_processings = [
@@ -98,7 +100,10 @@ class UserPanelAPI(BaseAPI):
         ]
 
         json = self._get_parameters(
-            quantity=quantity, offerId=product_id, postProcessings=post_processings
+            quantity=quantity,
+            offerId=product_id,
+            postProcessings=post_processings,
+            maxPrice=max_price,
         )
         return self._request(
             "PATCH", f"user-panel/baskets/{basket_id}/lines/{line_id}/", json=json
@@ -163,6 +168,7 @@ class UserPanelAPI(BaseAPI):
         product_id: int,
         quantity: int,
         post_processing_ids: t.Sequence[int] = (),
+        max_price: t.Optional[decimal.Decimal] = types.NoValue,
     ) -> types.ResponseDict:
         preferences = self._request("GET", "my-profile/preferences/")
         unit = preferences["unit"]
@@ -179,6 +185,7 @@ class UserPanelAPI(BaseAPI):
             quantity=quantity,
             product_id=product_id,
             post_processing_ids=post_processing_ids,
+            max_price=max_price,
         )
 
     def create_request_for_quote(
