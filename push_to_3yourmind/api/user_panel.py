@@ -145,7 +145,7 @@ class UserPanelAPI(BaseAPI):
         if isinstance(cad_file, str):
             if cad_file.startswith("http"):
                 response = requests.get(cad_file)
-                cad_file_contents = response.content
+                cad_file_contents = BytesIO(response.content)
             else:
                 with open(cad_file, "rb") as cad_file_obj:
                     cad_file_contents = BytesIO(cad_file_obj.read())
