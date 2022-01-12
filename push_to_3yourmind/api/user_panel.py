@@ -1,5 +1,7 @@
 import typing as t
-from io import IOBase
+from io import IOBase, BytesIO
+
+import requests
 
 from push_to_3yourmind import types, exceptions
 from push_to_3yourmind.api.base import BaseAPI
@@ -141,19 +143,25 @@ class UserPanelAPI(BaseAPI):
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
         if isinstance(cad_file, str):
-            with open(cad_file, "rb") as cad_file_obj:
-                return self._request(
-                    "POST", f"/upload/", data=data, files={"file": cad_file_obj}
-                )
+            if cad_file.startswith("http"):
+                response = requests.get(cad_file)
+                cad_file_contents = response.content
+            else:
+                with open(cad_file, "rb") as cad_file_obj:
+                    cad_file_contents = BytesIO(cad_file_obj.read())
         elif isinstance(cad_file, IOBase):
-            return self._request(
-                "POST", f"/upload/", data=data, files={"file": cad_file}
-            )
+            cad_file_contents = cad_file
+
         else:
             raise exceptions.BadArgument(
                 "cad_file argument must be either a path to the CAD file "
                 "or a file-like object"
             )
+
+        return self._request(
+            "POST", f"/upload/", data=data, files={"file": cad_file_contents}
+        )
+
 
     def create_line_with_cad_file_and_product(
         self,
