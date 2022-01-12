@@ -194,7 +194,7 @@ class UserPanelAPI(BaseAPI):
     ) -> types.ResponseDict:
         json = {
             "basketId": basket_id,
-            "serviceId": supplier_id,
+            "partnerId": supplier_id,
             "message": message,
         }
         return self._request("POST", f"user-panel/requests-for-quote/", json=json)
