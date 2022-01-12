@@ -146,9 +146,11 @@ class UserPanelAPI(BaseAPI):
             if cad_file.startswith("http"):
                 response = requests.get(cad_file)
                 cad_file_contents = BytesIO(response.content)
+                cad_file_contents.name = "originalFile.stl"
             else:
                 with open(cad_file, "rb") as cad_file_obj:
                     cad_file_contents = BytesIO(cad_file_obj.read())
+                    cad_file_contents.name = cad_file_obj.name
         elif isinstance(cad_file, IOBase):
             cad_file_contents = cad_file
 
