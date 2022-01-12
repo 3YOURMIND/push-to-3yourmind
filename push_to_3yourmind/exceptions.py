@@ -36,3 +36,8 @@ class PostProcessingNotFound(BasePushTo3YourmindAPIException):
 
 class SupplierNotFound(BasePushTo3YourmindAPIException):
     pass
+
+
+class FileAnalysisError(BasePushTo3YourmindAPIException):
+    pass
+

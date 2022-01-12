@@ -1,9 +1,10 @@
 import typing as t
 from io import IOBase, BytesIO
-
+import time
 import requests
 
 from push_to_3yourmind import types, exceptions
+from push_to_3yourmind.logger import logger
 from push_to_3yourmind.api.base import BaseAPI
 from push_to_3yourmind.types import NoValue
 
@@ -16,6 +17,9 @@ class UserPanelAPI(BaseAPI):
     Groups API functionality from the User Panel, such as creating/updating baskets,
     placing orders, making requests for quotes, ordering quotes etc.
     """
+
+    CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
+    CHECK_FILE_STATUS_DELAY = 0.5  # seconds
 
     def get_baskets(
         self,
@@ -138,7 +142,7 @@ class UserPanelAPI(BaseAPI):
         basket_id: int,
         unit: types.Unit,
         cad_file: types.CadFileSpecifier,
-        line_id: types.OptionalNumber = types.NoValue,
+        line_id: int,
     ) -> types.ResponseDict:
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
@@ -164,7 +168,6 @@ class UserPanelAPI(BaseAPI):
             "POST", f"/upload/", data=data, files={"file": cad_file_contents}
         )
 
-
     def create_line_with_cad_file_and_product(
         self,
         *,
@@ -182,6 +185,7 @@ class UserPanelAPI(BaseAPI):
         self.upload_cad_file(
             basket_id=basket_id, line_id=line_id, unit=unit, cad_file=cad_file
         )
+        self.check_uploaded_file_status(basket_id=basket_id, line_id=line_id)
 
         return self.update_basket_line(
             basket_id=basket_id,
@@ -190,6 +194,28 @@ class UserPanelAPI(BaseAPI):
             product_id=product_id,
             post_processing_ids=post_processing_ids,
         )
+
+    def check_uploaded_file_status(
+        self,
+        *,
+        basket_id: int,
+        line_id: int,
+    ) -> None:
+        max_attempts = self.CHECK_FILE_STATUS_MAX_ATTEMPTS
+        for attempt_number in range(max_attempts):
+            logger.debug(f"Checking file status {attempt_number}/{max_attempts}")
+            response = self._request(
+                "GET", f"user-panel/baskets/{basket_id}/lines/{line_id}/file-status/"
+            )
+            response_content = response.get("status")
+            if response_content == "analysing":
+                time.sleep(self.CHECK_FILE_STATUS_DELAY)
+                continue
+            elif response_content == "finished":
+                logger.debug("File analysis done")
+                return
+            else:
+                raise exceptions.FileAnalysisError()
 
     def create_request_for_quote(
         self, *, basket_id: int, supplier_id: int, message: str
