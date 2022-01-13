@@ -232,6 +232,12 @@ class UserPanelAPI(BaseAPI):
     def get_quotes(self) -> types.ResponseDict:
         return self._request("GET", "user-panel/quotes/")
 
+    def get_orders(self) -> types.ResponseDict:
+        return self._request("GET", "user-panel/orders/")
+
+    def get_order(self, *, order_id: int) -> types.ResponseDict:
+        return self._request("GET", f"user-panel/orders/{order_id}/")
+
     def get_quote(self, *, quote_id: int) -> types.ResponseDict:
         return self._request("GET", f"user-panel/quotes/{quote_id}/")
 
