@@ -226,3 +226,74 @@ class UserPanelAPI(BaseAPI):
             "message": message,
         }
         return self._request("POST", f"user-panel/requests-for-quote/", json=json)
+
+    def get_quotes(self) -> types.ResponseDict:
+        return self._request("GET", "user-panel/quotes/")
+
+    def get_quote(self, *, quote_id: int) -> types.ResponseDict:
+        return self._request("GET", f"user-panel/quotes/{quote_id}/")
+
+    def finalize_quote(
+        self,
+        *,
+        quote_id: int,
+        billing_address_id: t.Optional[int] = None,
+        shipping_address_id: t.Optional[int] = None,
+        shipping_method_id: t.Optional[int] = None,
+        pickup_location_id: t.Optional[int] = None,
+        delivery_instructions: t.Optional[str] = None,
+    ) -> types.ResponseDict:
+        json = self._get_parameters(
+            billingAddressId=billing_address_id,
+            shippingAddressId=shipping_address_id,
+            shippingMethodId=shipping_method_id,
+            pickupLocationId=pickup_location_id,
+            deliveryInstructions=delivery_instructions,
+        )
+        return self._request(
+            "POST",
+            f"user-panel/quotes/{quote_id}/finalize/",
+            json=json,
+        )
+
+    def place_order_from_quote(
+        self,
+        *,
+        quote_id: int,
+        payment_method_id: int,
+        reference: t.Optional[str],
+        currency: t.Optional[str],
+        voucher_code: str = "",
+    ) -> types.ResponseDict:
+        json = {
+            "additionalInformation": {"reference": reference},
+            "payment": {
+                "currency": currency,
+                "details": {},
+                "methodId": payment_method_id,
+            },
+            "quoteId": quote_id,
+            "voucherCode": voucher_code,
+        }
+        return self._request("POST", f"user-panel/orders/", json=json)
+
+    def get_payment_methods(self, *, supplier_id: int) -> types.ResponseDict:
+        return self._request(
+            "GET", f"user-panel/services/{supplier_id}/payment-methods/"
+        )
+
+    def get_shipping_methods(
+        self,
+        *,
+        supplier_id: int,
+        quote_id: types.OptionalNumber = types.NoValue,
+        shipping_address_id: types.OptionalNumber = types.NoValue,
+    ) -> types.ResponseDict:
+        query = self._get_parameters(
+            quoteId=quote_id, shippingAddressId=shipping_address_id
+        )
+        return self._request(
+            "GET",
+            f"user-panel/services/{supplier_id}/shipping-methods/",
+            params=query,
+        )
