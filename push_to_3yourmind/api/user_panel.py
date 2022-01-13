@@ -1,3 +1,4 @@
+import decimal
 import typing as t
 from io import IOBase, BytesIO
 import time
@@ -132,7 +133,8 @@ class UserPanelAPI(BaseAPI):
 
         return self._request(
             "GET",
-            f"user-panel/baskets/{basket_id}/lines/{line_id}/materials/{material_id}/offers/",
+            f"user-panel/baskets/{basket_id}/lines/{line_id}/"
+            f"materials/{material_id}/offers/",
             params=query,
         )
 
@@ -251,7 +253,7 @@ class UserPanelAPI(BaseAPI):
             deliveryInstructions=delivery_instructions,
         )
         return self._request(
-            "POST",
+            "PUT",
             f"user-panel/quotes/{quote_id}/finalize/",
             json=json,
         )
@@ -261,8 +263,9 @@ class UserPanelAPI(BaseAPI):
         *,
         quote_id: int,
         payment_method_id: int,
-        reference: t.Optional[str],
-        currency: t.Optional[str],
+        authorized_amount: decimal.Decimal,
+        reference: t.Optional[str] = None,
+        currency: t.Optional[str] = None,
         voucher_code: str = "",
     ) -> types.ResponseDict:
         json = {
@@ -271,13 +274,63 @@ class UserPanelAPI(BaseAPI):
                 "currency": currency,
                 "details": {},
                 "methodId": payment_method_id,
+                "authorizedAmount": authorized_amount,
             },
             "quoteId": quote_id,
             "voucherCode": voucher_code,
         }
         return self._request("POST", f"user-panel/orders/", json=json)
 
-    def get_payment_methods(self, *, supplier_id: int) -> types.ResponseDict:
+    def quick_order_quote(self, *, quote_id: int) -> types.ResponseDict:
+        """
+        get quote details
+        get supplier id
+
+        If quote is not finalized:
+           get my addresses, pick one
+           get supplier shipping methods, pick one
+           finalize quote with one address as shipping and billing,
+            one payment method and one shipping method
+
+        get payment methods, pick one
+        place order from quote with payment method
+        """
+        quote_details = self.get_quote(quote_id=quote_id)
+        supplier_id = quote_details["partner"]["id"]
+        quote_is_finalized = quote_details["status"] == "finalized"
+
+        if not quote_is_finalized:
+            addresses = self._request("GET", "my-profile/addresses/")
+            address = addresses[0]
+            address_id = address["id"]
+
+            shipping_methods = self.get_shipping_methods(
+                supplier_id=supplier_id,
+                quote_id=quote_id,
+                shipping_address_id=address_id,
+            )
+            shipping_method = shipping_methods[0]
+            shipping_method_id = shipping_method["id"]
+
+            self.finalize_quote(
+                quote_id=quote_id,
+                billing_address_id=address_id,
+                shipping_address_id=address_id,
+                shipping_method_id=shipping_method_id,
+            )
+        payment_methods = self.get_payment_methods(supplier_id=supplier_id)
+        payment_method = payment_methods[0]
+        payment_method_id = payment_method["id"]
+        return self.place_order_from_quote(
+            quote_id=quote_id,
+            payment_method_id=payment_method_id,
+            currency=quote_details["currency"],
+            authorized_amount=quote_details["totalPrice"]["inclusiveTax"],
+        )
+
+    def get_payment_methods(
+        self, *, supplier_id: int
+    ) -> t.Sequence[types.ResponseDict]:
         return self._request(
             "GET", f"user-panel/services/{supplier_id}/payment-methods/"
         )
@@ -288,7 +341,7 @@ class UserPanelAPI(BaseAPI):
         supplier_id: int,
         quote_id: types.OptionalNumber = types.NoValue,
         shipping_address_id: types.OptionalNumber = types.NoValue,
-    ) -> types.ResponseDict:
+    ) -> t.Sequence[types.ResponseDict]:
         query = self._get_parameters(
             quoteId=quote_id, shippingAddressId=shipping_address_id
         )
