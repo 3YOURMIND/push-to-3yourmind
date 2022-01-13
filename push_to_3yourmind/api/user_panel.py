@@ -150,7 +150,7 @@ class UserPanelAPI(BaseAPI):
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
         if isinstance(cad_file, str):
             if cad_file.startswith("http"):
-                response = requests.get(cad_file)
+                response = requests.get(cad_file, headers=self._get_headers())
                 cad_file_contents = BytesIO(response.content)
                 cad_file_contents.name = "originalFile.stl"
             else:

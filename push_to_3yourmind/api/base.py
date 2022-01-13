@@ -37,6 +37,9 @@ class BaseAPI:
         path = os.path.join(self._api_prefix, sub_path).lstrip("/")
         return os.path.join(self._base_url, path)
 
+    def _get_headers(self):
+        return {"Authorization": f"Token {self._access_token}"}
+
     def _request(
         self,
         method: types.RequestMethod,
@@ -68,7 +71,7 @@ class BaseAPI:
         response = requests.request(
             method=method,
             url=url,
-            headers={"Authorization": f"Token {self._access_token}"},
+            headers=self._get_headers(),
             **kwargs,
         )
 
