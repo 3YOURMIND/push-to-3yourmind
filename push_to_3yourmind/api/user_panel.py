@@ -1,3 +1,4 @@
+import datetime
 import decimal
 import typing as t
 from io import IOBase, BytesIO
@@ -97,15 +98,20 @@ class UserPanelAPI(BaseAPI):
         quantity: types.OptionalNumber = types.NoValue,
         product_id: types.OptionalNumber = types.NoValue,
         post_processing_ids: types.OptionalNumberSequence = (),
+        preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
 
         post_processings = [
             {"postProcessingId": post_processing_id}
             for post_processing_id in post_processing_ids
         ]
-
+        if isinstance(preferred_due_date, datetime.date):
+            preferred_due_date = preferred_due_date.strftime("%Y-%m-%d")
         json = self._get_parameters(
-            quantity=quantity, offerId=product_id, postProcessings=post_processings
+            quantity=quantity,
+            offerId=product_id,
+            postProcessings=post_processings,
+            preferredDueDate=preferred_due_date,
         )
         return self._request(
             "PATCH", f"user-panel/baskets/{basket_id}/lines/{line_id}/", json=json
@@ -178,6 +184,7 @@ class UserPanelAPI(BaseAPI):
         product_id: int,
         quantity: int,
         post_processing_ids: t.Sequence[int] = (),
+        preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
         preferences = self._request("GET", "my-profile/preferences/")
         unit = preferences["unit"]
@@ -195,6 +202,7 @@ class UserPanelAPI(BaseAPI):
             quantity=quantity,
             product_id=product_id,
             post_processing_ids=post_processing_ids,
+            preferred_due_date=preferred_due_date,
         )
 
     def check_uploaded_file_status(
