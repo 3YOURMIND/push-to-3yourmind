@@ -41,3 +41,7 @@ class SupplierNotFound(BasePushTo3YourmindAPIException):
 class FileAnalysisError(BasePushTo3YourmindAPIException):
     pass
 
+
+class CADFileNotFoundError(BasePushTo3YourmindAPIException):
+    pass
+
