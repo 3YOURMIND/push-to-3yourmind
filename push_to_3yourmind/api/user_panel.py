@@ -3,6 +3,7 @@ import decimal
 import typing as t
 from io import IOBase, BytesIO
 import time
+
 import requests
 
 from push_to_3yourmind import types, exceptions
@@ -156,13 +157,19 @@ class UserPanelAPI(BaseAPI):
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
         if isinstance(cad_file, str):
             if cad_file.startswith("http"):
-                response = requests.get(cad_file, headers=self._get_headers())
+                response = requests.get(cad_file)
+                if response.status_code != 200:
+                    raise exceptions.CADFileNotFoundError(response.content)
                 cad_file_contents = BytesIO(response.content)
                 cad_file_contents.name = "originalFile.stl"
             else:
-                with open(cad_file, "rb") as cad_file_obj:
-                    cad_file_contents = BytesIO(cad_file_obj.read())
-                    cad_file_contents.name = cad_file_obj.name
+                try:
+                    with open(cad_file, "rb") as cad_file_obj:
+                        cad_file_contents = BytesIO(cad_file_obj.read())
+                        cad_file_contents.name = cad_file_obj.name
+                except IOError as exc:
+                    raise exceptions.CADFileNotFoundError from exc
+
         elif isinstance(cad_file, IOBase):
             cad_file_contents = cad_file
 
@@ -245,6 +252,9 @@ class UserPanelAPI(BaseAPI):
 
     def get_order(self, *, order_id: int) -> types.ResponseDict:
         return self._request("GET", f"user-panel/orders/{order_id}/")
+
+    def get_order_line(self, *, order_id: int, line_id: int) -> types.ResponseDict:
+        return self._request("GET", f"user-panel/orders/{order_id}/{line_id}/")
 
     def get_quote(self, *, quote_id: int) -> types.ResponseDict:
         return self._request("GET", f"user-panel/quotes/{quote_id}/")
