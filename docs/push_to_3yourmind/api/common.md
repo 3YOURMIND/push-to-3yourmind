@@ -10,14 +10,15 @@ Classes
     :param access_token:
     :param base_url:
 
-    ### Ancestors (in MRO)
-
-    * push_to_3yourmind.api.base.BaseAPI
-
     ### Methods
 
     `get_colors(self) ‑> List[Dict[str, Any]]`
     :
+
+    `get_units(self) ‑> List[Dict[str, Any]]`
+    :   Get list of units of measure available on the platform.
+        Currently, "mm" and "inch".
+        :return:
 
     `get_countries(self) ‑> List[Dict[str, Any]]`
     :   Get list of countries with codes and full names
@@ -32,8 +33,3 @@ Classes
 
     `get_tax_types(self) ‑> List[str]`
     :
-
-    `get_units(self) ‑> List[Dict[str, Any]]`
-    :   Get list of units of measure available on the platform.
-        Currently, "mm" and "inch".
-        :return:

@@ -10,29 +10,10 @@ Classes
     :param access_token:
     :param base_url:
 
-    ### Ancestors (in MRO)
-
-    * push_to_3yourmind.api.base.BaseAPI
-
     ### Methods
-
-    `get_address(self, *, address_id: int) ‑> Dict[str, Any]`
-    :   Get specific address of the current user
-        
-        :return:
-
-    `get_addresses(self) ‑> List[Dict[str, Any]]`
-    :   Get a list of current user's addresses
-        
-        :return:
 
     `get_preferences(self) ‑> Dict[str, Any]`
     :   Get preferences of the current user: country, currency, language, unit
-        
-        :return:
-
-    `get_profile(self) ‑> Dict[str, Any]`
-    :   Get profile of the current user: name, default address, access roles etc.
         
         :return:
 
@@ -44,4 +25,19 @@ Classes
         :param currency: 3-letter currency code, ex. USD, EUR
         :param language: 2-letter language code, ex. en, de, fr, es
         :param unit: mm or inch
+        :return:
+
+    `get_profile(self) ‑> Dict[str, Any]`
+    :   Get profile of the current user: name, default address, access roles etc.
+        
+        :return:
+
+    `get_addresses(self) ‑> List[Dict[str, Any]]`
+    :   Get a list of current user's addresses
+        
+        :return:
+
+    `get_address(self, *, address_id: int) ‑> Dict[str, Any]`
+    :   Get specific address of the current user
+        
         :return:

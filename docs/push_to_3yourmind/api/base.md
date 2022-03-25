@@ -9,10 +9,3 @@ Classes
     
     :param access_token:
     :param base_url:
-
-    ### Descendants
-
-    * push_to_3yourmind.api.common.CommonAPI
-    * push_to_3yourmind.api.my_profile.MyProfileAPI
-    * push_to_3yourmind.api.user_panel.UserPanelAPI
-    * push_to_3yourmind.main.PushTo3YourmindAPI

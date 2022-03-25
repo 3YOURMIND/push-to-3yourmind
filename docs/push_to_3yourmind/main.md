@@ -9,7 +9,3 @@ Classes
     
     :param access_token:
     :param base_url:
-
-    ### Ancestors (in MRO)
-
-    * push_to_3yourmind.api.base.BaseAPI

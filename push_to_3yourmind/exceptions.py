@@ -1,9 +1,13 @@
 class BasePushTo3YourmindAPIException(Exception):
-    pass
+    """
+    Base exception class for all exceptions raised by push_to_3yourmind
+    """
 
 
 class ObjectNotFound(BasePushTo3YourmindAPIException):
-    pass
+    """
+    Is raised when an API endpoint response is 404 - Object Not Found
+    """
 
 
 class Unauthorized(BasePushTo3YourmindAPIException):
