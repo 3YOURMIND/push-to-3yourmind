@@ -5,7 +5,7 @@ and Catalog Items.
 
 # Usage Guide
 
-[link](./docs/index.html)
+[link](./docs/push_to_3yourmind/index.md)
 
 ## Requirements
 
