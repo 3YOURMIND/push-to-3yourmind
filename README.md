@@ -3,17 +3,13 @@ A Python SDK library to work with 3YOURMIND's platform API. It enables you to ma
 information, push 3D Files, manipulate baskets, lines, get pricing information, place Orders 
 and Catalog Items.
 
-# Usage Guide
-
-[link](./docs/push_to_3yourmind/index.md)
+# Quickstart
 
 ## Requirements
 
 Python >= 3.6
 
 ## Create access token for your user
-
-All operations 
 
 Open `/admin/auth/user/`, and click "Create token" in the user list.
 
@@ -45,9 +41,9 @@ basket = client.user_panel.get_basket(basket_id=6)
 
 ```
 
-# Library Development Guide
+# Usage Guide
 
-[link](./doc/development.md)
+[link](https://3yourmind.github.io/push-to-3yourmind/)
 
 # @
 
