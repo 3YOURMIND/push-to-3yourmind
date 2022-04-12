@@ -1,3 +1,7 @@
+"""
+Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc.
+"""
 import datetime
 import decimal
 import typing as t
@@ -17,9 +21,6 @@ __all__ = ["UserPanelAPI"]
 
 class UserPanelAPI(BaseAPI):
     """
-    Groups API functionality from the User Panel, such as creating/updating baskets,
-    placing orders, making requests for quotes, ordering quotes etc.
-
     Accessible via namespace `user_panel`, for example:
     >>> response = client.user_panel.get_baskets()
 

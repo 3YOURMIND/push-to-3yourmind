@@ -1,3 +1,7 @@
+"""
+Exception classes raised by the client library
+"""
+
 class BasePushTo3YourmindAPIException(Exception):
     """
     Base exception class for all exceptions raised by push_to_3yourmind

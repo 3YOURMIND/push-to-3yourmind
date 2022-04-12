@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>push_to_3yourmind.api.common API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="API methods common to all panels." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +22,15 @@
 <h1 class="title">Module <code>push_to_3yourmind.api.common</code></h1>
 </header>
 <section id="section-intro">
+<p>API methods common to all panels.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import typing as t
+<pre><code class="python">&#34;&#34;&#34;
+API methods common to all panels.
+&#34;&#34;&#34;
+import typing as t
 
 from push_to_3yourmind import types
 from push_to_3yourmind.api.base import BaseAPI
@@ -37,8 +41,6 @@ __all__ = [&#34;CommonAPI&#34;]
 
 class CommonAPI(BaseAPI):
     &#34;&#34;&#34;
-    API methods common to all panels.
-
     Accessible via namespace `common`, for example:
     &gt;&gt;&gt; response = client.common.get_colors()
     &#34;&#34;&#34;
@@ -86,8 +88,7 @@ class CommonAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>API methods common to all panels.</p>
-<p>Accessible via namespace <code>common</code>, for example:</p>
+<div class="desc"><p>Accessible via namespace <code>common</code>, for example:</p>
 <pre><code class="language-python-repl">&gt;&gt;&gt; response = client.common.get_colors()
 </code></pre>
 <h2 id="args">Args</h2>
@@ -104,8 +105,6 @@ class CommonAPI(BaseAPI):
 </summary>
 <pre><code class="python">class CommonAPI(BaseAPI):
     &#34;&#34;&#34;
-    API methods common to all panels.
-
     Accessible via namespace `common`, for example:
     &gt;&gt;&gt; response = client.common.get_colors()
     &#34;&#34;&#34;

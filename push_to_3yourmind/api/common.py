@@ -1,3 +1,6 @@
+"""
+API methods common to all panels.
+"""
 import typing as t
 
 from push_to_3yourmind import types
@@ -9,8 +12,6 @@ __all__ = ["CommonAPI"]
 
 class CommonAPI(BaseAPI):
     """
-    API methods common to all panels.
-
     Accessible via namespace `common`, for example:
     >>> response = client.common.get_colors()
     """

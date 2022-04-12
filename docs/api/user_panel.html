@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>push_to_3yourmind.api.user_panel API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +23,17 @@
 <h1 class="title">Module <code>push_to_3yourmind.api.user_panel</code></h1>
 </header>
 <section id="section-intro">
+<p>Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import datetime
+<pre><code class="python">&#34;&#34;&#34;
+Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc.
+&#34;&#34;&#34;
+import datetime
 import decimal
 import typing as t
 from io import IOBase, BytesIO
@@ -45,9 +52,6 @@ __all__ = [&#34;UserPanelAPI&#34;]
 
 class UserPanelAPI(BaseAPI):
     &#34;&#34;&#34;
-    Groups API functionality from the User Panel, such as creating/updating baskets,
-    placing orders, making requests for quotes, ordering quotes etc.
-
     Accessible via namespace `user_panel`, for example:
     &gt;&gt;&gt; response = client.user_panel.get_baskets()
 
@@ -449,9 +453,7 @@ class UserPanelAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Groups API functionality from the User Panel, such as creating/updating baskets,
-placing orders, making requests for quotes, ordering quotes etc.</p>
-<p>Accessible via namespace <code>user_panel</code>, for example:</p>
+<div class="desc"><p>Accessible via namespace <code>user_panel</code>, for example:</p>
 <pre><code class="language-python-repl">&gt;&gt;&gt; response = client.user_panel.get_baskets()
 </code></pre>
 <h2 id="attributes">Attributes</h2>
@@ -475,9 +477,6 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
 </summary>
 <pre><code class="python">class UserPanelAPI(BaseAPI):
     &#34;&#34;&#34;
-    Groups API functionality from the User Panel, such as creating/updating baskets,
-    placing orders, making requests for quotes, ordering quotes etc.
-
     Accessible via namespace `user_panel`, for example:
     &gt;&gt;&gt; response = client.user_panel.get_baskets()
 

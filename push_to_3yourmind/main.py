@@ -1,3 +1,6 @@
+"""
+Main class/entrypoint declaration
+"""
 from push_to_3yourmind.api.base import BaseAPI
 from push_to_3yourmind.api.common import CommonAPI
 from push_to_3yourmind.api.my_profile import MyProfileAPI
