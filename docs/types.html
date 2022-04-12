@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>push_to_3yourmind.types API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="This module contains NoValue class and type aliases for type annotations" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,17 +22,43 @@
 <h1 class="title">Module <code>push_to_3yourmind.types</code></h1>
 </header>
 <section id="section-intro">
+<p>This module contains NoValue class and type aliases for type annotations</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import datetime
+<pre><code class="python">&#34;&#34;&#34;
+This module contains NoValue class and type aliases for type annotations
+&#34;&#34;&#34;
+
+import datetime
 import decimal
 import typing as t
 
 
+__all__ = [&#34;NoValue&#34;]
+
+
 class NoValue:
-    pass
+    &#34;&#34;&#34;
+    Some class methods accept arguments that are optional. Skipping them means
+    &#34;no data changed&#34; and will lead to not sending them to the 3YD API. To skip such an
+    argument give it a `NoValue` value.
+
+    For example, `client.my_profile.set_preferences` can accept 4 arguments:
+    country, currency, language, unit. If you need to update user&#39;s unit but leave other
+    settings unchanged:
+
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=NoValue, currency=NoValue, language=NoValue)
+    # or shorter
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;)
+
+    The following:
+
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=None, currency=None, language=None)
+
+    ... it will mean that you want to set user&#39;s country, currency and language setting to NULL.
+    &#34;&#34;&#34;
 
 
 ResponseDict = t.Dict[str, t.Any]
@@ -61,13 +87,44 @@ OptionalDateTime = t.Union[datetime.datetime, t.Type[NoValue]]</code></pre>
 <span>class <span class="ident">NoValue</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Some class methods accept arguments that are optional. Skipping them means
+"no data changed" and will lead to not sending them to the 3YD API. To skip such an
+argument give it a <code><a title="push_to_3yourmind.types.NoValue" href="#push_to_3yourmind.types.NoValue">NoValue</a></code> value.</p>
+<p>For example, <code>client.my_profile.set_preferences</code> can accept 4 arguments:
+country, currency, language, unit. If you need to update user's unit but leave other
+settings unchanged:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;, country=NoValue, currency=NoValue, language=NoValue)
+# or shorter
+&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;)
+</code></pre>
+<p>The following:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;, country=None, currency=None, language=None)
+</code></pre>
+<p>&hellip; it will mean that you want to set user's country, currency and language setting to NULL.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class NoValue:
-    pass</code></pre>
+    &#34;&#34;&#34;
+    Some class methods accept arguments that are optional. Skipping them means
+    &#34;no data changed&#34; and will lead to not sending them to the 3YD API. To skip such an
+    argument give it a `NoValue` value.
+
+    For example, `client.my_profile.set_preferences` can accept 4 arguments:
+    country, currency, language, unit. If you need to update user&#39;s unit but leave other
+    settings unchanged:
+
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=NoValue, currency=NoValue, language=NoValue)
+    # or shorter
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;)
+
+    The following:
+
+    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=None, currency=None, language=None)
+
+    ... it will mean that you want to set user&#39;s country, currency and language setting to NULL.
+    &#34;&#34;&#34;</code></pre>
 </details>
 </dd>
 </dl>

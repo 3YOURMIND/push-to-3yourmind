@@ -36,6 +36,23 @@ __all__ = [&#34;PushTo3YourmindAPI&#34;]
 
 
 class PushTo3YourmindAPI(BaseAPI):
+    &#34;&#34;&#34;
+    The main class and the entrypoint for API
+
+    &gt;&gt;&gt; from push_to_3yourmind import PushTo3YourmindAPI
+    &gt;&gt;&gt; client = PushTo3YourmindAPI(access_token=&#34;QWERTY123456789&#34;, base_url=&#34;http://&lt;domain-name&gt;&#34;)
+
+    Functionality is divided into namespaces, for example `my_profile`, `user_panel` etc. Some
+    API endpoints require proper user permissions, in case when an API can&#39;t be reached, an exception
+    AccessDenied is raised.
+
+    Attributes:
+        user_panel: order management-related API: create/update basket lines,
+            upload CAD files, pricing
+        common: common API: country, unit, material lists
+        my_profile: API to manage user&#39;s preferences, profile, address list etc
+    &#34;&#34;&#34;
+
     def __init__(self, access_token: str, base_url: str):
         super().__init__(access_token, base_url)
         self.user_panel = UserPanelAPI(access_token, base_url)
@@ -57,14 +74,53 @@ class PushTo3YourmindAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all namespaced API methods.</p>
-<p>:param access_token:
-:param base_url:</p></div>
+<div class="desc"><p>The main class and the entrypoint for API</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from push_to_3yourmind import PushTo3YourmindAPI
+&gt;&gt;&gt; client = PushTo3YourmindAPI(access_token=&quot;QWERTY123456789&quot;, base_url=&quot;http://&lt;domain-name&gt;&quot;)
+</code></pre>
+<p>Functionality is divided into namespaces, for example <code>my_profile</code>, <code>user_panel</code> etc. Some
+API endpoints require proper user permissions, in case when an API can't be reached, an exception
+AccessDenied is raised.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>user_panel</code></strong></dt>
+<dd>order management-related API: create/update basket lines,
+upload CAD files, pricing</dd>
+<dt><strong><code>common</code></strong></dt>
+<dd>common API: country, unit, material lists</dd>
+<dt><strong><code>my_profile</code></strong></dt>
+<dd>API to manage user's preferences, profile, address list etc</dd>
+</dl>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>access_token</code></strong></dt>
+<dd>to create a token, open <code>/admin/auth/user/</code>, and click
+"Create token" in the user list.</dd>
+<dt><strong><code>base_url</code></strong></dt>
+<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PushTo3YourmindAPI(BaseAPI):
+    &#34;&#34;&#34;
+    The main class and the entrypoint for API
+
+    &gt;&gt;&gt; from push_to_3yourmind import PushTo3YourmindAPI
+    &gt;&gt;&gt; client = PushTo3YourmindAPI(access_token=&#34;QWERTY123456789&#34;, base_url=&#34;http://&lt;domain-name&gt;&#34;)
+
+    Functionality is divided into namespaces, for example `my_profile`, `user_panel` etc. Some
+    API endpoints require proper user permissions, in case when an API can&#39;t be reached, an exception
+    AccessDenied is raised.
+
+    Attributes:
+        user_panel: order management-related API: create/update basket lines,
+            upload CAD files, pricing
+        common: common API: country, unit, material lists
+        my_profile: API to manage user&#39;s preferences, profile, address list etc
+    &#34;&#34;&#34;
+
     def __init__(self, access_token: str, base_url: str):
         super().__init__(access_token, base_url)
         self.user_panel = UserPanelAPI(access_token, base_url)

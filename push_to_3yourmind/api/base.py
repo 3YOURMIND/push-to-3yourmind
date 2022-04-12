@@ -13,14 +13,15 @@ __all__ = ["BaseAPI"]
 
 class BaseAPI:
     """
-    Base class for all namespaced API methods.
+    Base class for all namespaced API methods. Not to be instantiated directly.
     """
 
     def __init__(self, access_token: str, base_url: str):
         """
-
-        :param access_token:
-        :param base_url:
+        Args:
+            access_token: to create a token, open `/admin/auth/user/`, and click
+                "Create token" in the user list.
+            base_url: application URL, ex. https://app.3yourmind.com
         """
         self._api_prefix = "api/v2.0"
         self._access_token = access_token
@@ -81,12 +82,14 @@ class BaseAPI:
             else:
                 response_payload = ""
 
-            if response.status_code == 404:
-                raise exceptions.ObjectNotFound(response_payload)
+            if response.status_code == 400:
+                raise exceptions.BadRequest(response_payload)
             elif response.status_code == 401:
                 raise exceptions.Unauthorized(response_payload)
-            elif response.status_code == 400:
-                raise exceptions.BadRequest(response_payload)
+            elif response.status_code == 403:
+                raise exceptions.AccessDenied(response_payload)
+            elif response.status_code == 404:
+                raise exceptions.ObjectNotFound(response_payload)
             elif response.status_code == 405:
                 raise exceptions.MethodNotAllowed(response_payload)
             return response_payload

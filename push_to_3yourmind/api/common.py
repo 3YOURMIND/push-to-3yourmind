@@ -8,6 +8,13 @@ __all__ = ["CommonAPI"]
 
 
 class CommonAPI(BaseAPI):
+    """
+    API methods common to all panels.
+
+    Accessible via namespace `common`, for example:
+    >>> response = client.common.get_colors()
+    """
+
     def get_colors(self) -> t.List[types.ResponseDict]:
         return self._request("GET", "colors/")
 
@@ -15,21 +22,18 @@ class CommonAPI(BaseAPI):
         """
         Get list of units of measure available on the platform.
         Currently, "mm" and "inch".
-        :return:
         """
         return self._request("GET", "units/")
 
     def get_countries(self) -> t.List[types.ResponseDict]:
         """
         Get list of countries with codes and full names
-        :return:
         """
         return self._request("GET", "countries/")
 
     def get_currencies(self) -> t.List[str]:
         """
         Get list of currencies available on the platform
-        :return:
         """
         return self._request("GET", "currencies/")
 

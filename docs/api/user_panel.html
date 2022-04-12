@@ -47,6 +47,13 @@ class UserPanelAPI(BaseAPI):
     &#34;&#34;&#34;
     Groups API functionality from the User Panel, such as creating/updating baskets,
     placing orders, making requests for quotes, ordering quotes etc.
+
+    Accessible via namespace `user_panel`, for example:
+    &gt;&gt;&gt; response = client.user_panel.get_baskets()
+
+    Attributes:
+        CHECK_FILE_STATUS_MAX_ATTEMPTS: How many times to check for the uploaded CAD file analysis status
+        CHECK_FILE_STATUS_DELAY: Delay between status check requests, in seconds
     &#34;&#34;&#34;
 
     CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
@@ -61,20 +68,30 @@ class UserPanelAPI(BaseAPI):
         &#34;&#34;&#34;
         Get all baskets of the current user. Returns paginated list.
 
-        :param page: int, optional
-        :param page_size: int, optional
-        :return: dictionary with the following keys:
-            count: total number of baskets
-            currentPage:
-            totalPages:
-            pageSize: baskets per page
-            results: list of basket details
+        Args:
+            page: int, optional
+            page_size: int, optional
+        Returns:
+            dictionary with the following keys:
+
+            - count: total number of baskets, int
+            - currentPage: page number, int
+            - totalPages: total number of pages, int
+            - pageSize: baskets per page, int
+            - results: list of basket details
         &#34;&#34;&#34;
 
         query = self._get_parameters(page=page, pageSize=page_size)
         return self._request(&#34;GET&#34;, &#34;user-panel/baskets/&#34;, params=query)
 
     def get_basket(self, *, basket_id: int) -&gt; types.ResponseDict:
+        &#34;&#34;&#34;
+        Args:
+            basket_id: int
+
+        Returns:
+            Basket details dict
+        &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
 
     def get_basket_price(
@@ -87,6 +104,20 @@ class UserPanelAPI(BaseAPI):
         shipping_method_id: types.OptionalNumber = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -&gt; types.ResponseDict:
+        &#34;&#34;&#34;
+        Calculate basket&#39;s price, given additional optional shipping, billing information
+
+        Args:
+            basket_id: int
+            currency: str
+            shipping_address_id: int, optional
+            billing_address_id: int, optional
+            shipping_method_id: int, optional
+            voucher_code: str, optional
+
+        Returns:
+            Dict containing basket prices
+        &#34;&#34;&#34;
         query = self._get_parameters(
             currency=currency,
             shippingAddressId=shipping_address_id,
@@ -420,8 +451,24 @@ class UserPanelAPI(BaseAPI):
 <dd>
 <div class="desc"><p>Groups API functionality from the User Panel, such as creating/updating baskets,
 placing orders, making requests for quotes, ordering quotes etc.</p>
-<p>:param access_token:
-:param base_url:</p></div>
+<p>Accessible via namespace <code>user_panel</code>, for example:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; response = client.user_panel.get_baskets()
+</code></pre>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>CHECK_FILE_STATUS_MAX_ATTEMPTS</code></strong></dt>
+<dd>How many times to check for the uploaded CAD file analysis status</dd>
+<dt><strong><code>CHECK_FILE_STATUS_DELAY</code></strong></dt>
+<dd>Delay between status check requests, in seconds</dd>
+</dl>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>access_token</code></strong></dt>
+<dd>to create a token, open <code>/admin/auth/user/</code>, and click
+"Create token" in the user list.</dd>
+<dt><strong><code>base_url</code></strong></dt>
+<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -430,6 +477,13 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
     &#34;&#34;&#34;
     Groups API functionality from the User Panel, such as creating/updating baskets,
     placing orders, making requests for quotes, ordering quotes etc.
+
+    Accessible via namespace `user_panel`, for example:
+    &gt;&gt;&gt; response = client.user_panel.get_baskets()
+
+    Attributes:
+        CHECK_FILE_STATUS_MAX_ATTEMPTS: How many times to check for the uploaded CAD file analysis status
+        CHECK_FILE_STATUS_DELAY: Delay between status check requests, in seconds
     &#34;&#34;&#34;
 
     CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
@@ -444,20 +498,30 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
         &#34;&#34;&#34;
         Get all baskets of the current user. Returns paginated list.
 
-        :param page: int, optional
-        :param page_size: int, optional
-        :return: dictionary with the following keys:
-            count: total number of baskets
-            currentPage:
-            totalPages:
-            pageSize: baskets per page
-            results: list of basket details
+        Args:
+            page: int, optional
+            page_size: int, optional
+        Returns:
+            dictionary with the following keys:
+
+            - count: total number of baskets, int
+            - currentPage: page number, int
+            - totalPages: total number of pages, int
+            - pageSize: baskets per page, int
+            - results: list of basket details
         &#34;&#34;&#34;
 
         query = self._get_parameters(page=page, pageSize=page_size)
         return self._request(&#34;GET&#34;, &#34;user-panel/baskets/&#34;, params=query)
 
     def get_basket(self, *, basket_id: int) -&gt; types.ResponseDict:
+        &#34;&#34;&#34;
+        Args:
+            basket_id: int
+
+        Returns:
+            Basket details dict
+        &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
 
     def get_basket_price(
@@ -470,6 +534,20 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
         shipping_method_id: types.OptionalNumber = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -&gt; types.ResponseDict:
+        &#34;&#34;&#34;
+        Calculate basket&#39;s price, given additional optional shipping, billing information
+
+        Args:
+            basket_id: int
+            currency: str
+            shipping_address_id: int, optional
+            billing_address_id: int, optional
+            shipping_method_id: int, optional
+            voucher_code: str, optional
+
+        Returns:
+            Dict containing basket prices
+        &#34;&#34;&#34;
         query = self._get_parameters(
             currency=currency,
             shippingAddressId=shipping_address_id,
@@ -808,14 +886,22 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Get all baskets of the current user. Returns paginated list.</p>
-<p>:param page: int, optional
-:param page_size: int, optional
-:return: dictionary with the following keys:
-count: total number of baskets
-currentPage:
-totalPages:
-pageSize: baskets per page
-results: list of basket details</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>page</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>page_size</code></strong></dt>
+<dd>int, optional</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>dictionary with the following keys:</p>
+<ul>
+<li>count: total number of baskets, int</li>
+<li>currentPage: page number, int</li>
+<li>totalPages: total number of pages, int</li>
+<li>pageSize: baskets per page, int</li>
+<li>results: list of basket details</li>
+</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -829,14 +915,17 @@ results: list of basket details</p></div>
     &#34;&#34;&#34;
     Get all baskets of the current user. Returns paginated list.
 
-    :param page: int, optional
-    :param page_size: int, optional
-    :return: dictionary with the following keys:
-        count: total number of baskets
-        currentPage:
-        totalPages:
-        pageSize: baskets per page
-        results: list of basket details
+    Args:
+        page: int, optional
+        page_size: int, optional
+    Returns:
+        dictionary with the following keys:
+
+        - count: total number of baskets, int
+        - currentPage: page number, int
+        - totalPages: total number of pages, int
+        - pageSize: baskets per page, int
+        - results: list of basket details
     &#34;&#34;&#34;
 
     query = self._get_parameters(page=page, pageSize=page_size)
@@ -847,12 +936,25 @@ results: list of basket details</p></div>
 <span>def <span class="ident">get_basket</span></span>(<span>self, *, basket_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>basket_id</code></strong></dt>
+<dd>int</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Basket details dict</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_basket(self, *, basket_id: int) -&gt; types.ResponseDict:
+    &#34;&#34;&#34;
+    Args:
+        basket_id: int
+
+    Returns:
+        Basket details dict
+    &#34;&#34;&#34;
     return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)</code></pre>
 </details>
 </dd>
@@ -860,7 +962,24 @@ results: list of basket details</p></div>
 <span>def <span class="ident">get_basket_price</span></span>(<span>self, *, basket_id: int, currency: str, shipping_address_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, billing_address_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_method_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, voucher_code: Union[str, bytes, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Calculate basket's price, given additional optional shipping, billing information</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>basket_id</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>currency</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>shipping_address_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>billing_address_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>shipping_method_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>voucher_code</code></strong></dt>
+<dd>str, optional</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Dict containing basket prices</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -875,6 +994,20 @@ results: list of basket details</p></div>
     shipping_method_id: types.OptionalNumber = types.NoValue,
     voucher_code: types.OptionalString = types.NoValue,
 ) -&gt; types.ResponseDict:
+    &#34;&#34;&#34;
+    Calculate basket&#39;s price, given additional optional shipping, billing information
+
+    Args:
+        basket_id: int
+        currency: str
+        shipping_address_id: int, optional
+        billing_address_id: int, optional
+        shipping_method_id: int, optional
+        voucher_code: str, optional
+
+    Returns:
+        Dict containing basket prices
+    &#34;&#34;&#34;
     query = self._get_parameters(
         currency=currency,
         shippingAddressId=shipping_address_id,

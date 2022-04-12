@@ -19,6 +19,13 @@ class UserPanelAPI(BaseAPI):
     """
     Groups API functionality from the User Panel, such as creating/updating baskets,
     placing orders, making requests for quotes, ordering quotes etc.
+
+    Accessible via namespace `user_panel`, for example:
+    >>> response = client.user_panel.get_baskets()
+
+    Attributes:
+        CHECK_FILE_STATUS_MAX_ATTEMPTS: How many times to check for the uploaded CAD file analysis status
+        CHECK_FILE_STATUS_DELAY: Delay between status check requests, in seconds
     """
 
     CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
@@ -33,20 +40,30 @@ class UserPanelAPI(BaseAPI):
         """
         Get all baskets of the current user. Returns paginated list.
 
-        :param page: int, optional
-        :param page_size: int, optional
-        :return: dictionary with the following keys:
-            count: total number of baskets
-            currentPage:
-            totalPages:
-            pageSize: baskets per page
-            results: list of basket details
+        Args:
+            page: int, optional
+            page_size: int, optional
+        Returns:
+            dictionary with the following keys:
+
+            - count: total number of baskets, int
+            - currentPage: page number, int
+            - totalPages: total number of pages, int
+            - pageSize: baskets per page, int
+            - results: list of basket details
         """
 
         query = self._get_parameters(page=page, pageSize=page_size)
         return self._request("GET", "user-panel/baskets/", params=query)
 
     def get_basket(self, *, basket_id: int) -> types.ResponseDict:
+        """
+        Args:
+            basket_id: int
+
+        Returns:
+            Basket details dict
+        """
         return self._request("GET", f"user-panel/baskets/{basket_id}/")
 
     def get_basket_price(
@@ -59,6 +76,20 @@ class UserPanelAPI(BaseAPI):
         shipping_method_id: types.OptionalNumber = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -> types.ResponseDict:
+        """
+        Calculate basket's price, given additional optional shipping, billing information
+
+        Args:
+            basket_id: int
+            currency: str
+            shipping_address_id: int, optional
+            billing_address_id: int, optional
+            shipping_method_id: int, optional
+            voucher_code: str, optional
+
+        Returns:
+            Dict containing basket prices
+        """
         query = self._get_parameters(
             currency=currency,
             shippingAddressId=shipping_address_id,

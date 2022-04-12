@@ -39,8 +39,6 @@ class MyProfileAPI(BaseAPI):
     def get_preferences(self) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get preferences of the current user: country, currency, language, unit
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -57,11 +55,11 @@ class MyProfileAPI(BaseAPI):
         Update profile of the current user. All arguments are optional, only passed
         values will be saved to the profile.
 
-        :param country: 2-letter country code, ex. US, FR, GB
-        :param currency: 3-letter currency code, ex. USD, EUR
-        :param language: 2-letter language code, ex. en, de, fr, es
-        :param unit: mm or inch
-        :return:
+        Args:
+            country: 2-letter country code, ex. US, FR, GB
+            currency: 3-letter currency code, ex. USD, EUR
+            language: 2-letter language code, ex. en, de, fr, es
+            unit: mm or inch
         &#34;&#34;&#34;
 
         json = self._get_parameters(
@@ -72,8 +70,6 @@ class MyProfileAPI(BaseAPI):
     def get_profile(self) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get profile of the current user: name, default address, access roles etc.
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/profile/&#34;)
@@ -81,8 +77,6 @@ class MyProfileAPI(BaseAPI):
     def get_addresses(self) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get a list of current user&#39;s addresses
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/addresses/&#34;)
@@ -90,8 +84,6 @@ class MyProfileAPI(BaseAPI):
     def get_address(self, *, address_id: int) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get specific address of the current user
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, f&#34;my-profile/addresses/{address_id}/&#34;)</code></pre>
@@ -111,9 +103,15 @@ class MyProfileAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all namespaced API methods.</p>
-<p>:param access_token:
-:param base_url:</p></div>
+<div class="desc"><p>Base class for all namespaced API methods. Not to be instantiated directly.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>access_token</code></strong></dt>
+<dd>to create a token, open <code>/admin/auth/user/</code>, and click
+"Create token" in the user list.</dd>
+<dt><strong><code>base_url</code></strong></dt>
+<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -122,8 +120,6 @@ class MyProfileAPI(BaseAPI):
     def get_preferences(self) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get preferences of the current user: country, currency, language, unit
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -140,11 +136,11 @@ class MyProfileAPI(BaseAPI):
         Update profile of the current user. All arguments are optional, only passed
         values will be saved to the profile.
 
-        :param country: 2-letter country code, ex. US, FR, GB
-        :param currency: 3-letter currency code, ex. USD, EUR
-        :param language: 2-letter language code, ex. en, de, fr, es
-        :param unit: mm or inch
-        :return:
+        Args:
+            country: 2-letter country code, ex. US, FR, GB
+            currency: 3-letter currency code, ex. USD, EUR
+            language: 2-letter language code, ex. en, de, fr, es
+            unit: mm or inch
         &#34;&#34;&#34;
 
         json = self._get_parameters(
@@ -155,8 +151,6 @@ class MyProfileAPI(BaseAPI):
     def get_profile(self) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get profile of the current user: name, default address, access roles etc.
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/profile/&#34;)
@@ -164,8 +158,6 @@ class MyProfileAPI(BaseAPI):
     def get_addresses(self) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get a list of current user&#39;s addresses
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, &#34;my-profile/addresses/&#34;)
@@ -173,8 +165,6 @@ class MyProfileAPI(BaseAPI):
     def get_address(self, *, address_id: int) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
         Get specific address of the current user
-
-        :return:
         &#34;&#34;&#34;
 
         return self._request(&#34;GET&#34;, f&#34;my-profile/addresses/{address_id}/&#34;)</code></pre>
@@ -189,8 +179,7 @@ class MyProfileAPI(BaseAPI):
 <span>def <span class="ident">get_preferences</span></span>(<span>self) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get preferences of the current user: country, currency, language, unit</p>
-<p>:return:</p></div>
+<div class="desc"><p>Get preferences of the current user: country, currency, language, unit</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -198,8 +187,6 @@ class MyProfileAPI(BaseAPI):
 <pre><code class="python">def get_preferences(self) -&gt; types.ResponseDict:
     &#34;&#34;&#34;
     Get preferences of the current user: country, currency, language, unit
-
-    :return:
     &#34;&#34;&#34;
 
     return self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)</code></pre>
@@ -211,11 +198,17 @@ class MyProfileAPI(BaseAPI):
 <dd>
 <div class="desc"><p>Update profile of the current user. All arguments are optional, only passed
 values will be saved to the profile.</p>
-<p>:param country: 2-letter country code, ex. US, FR, GB
-:param currency: 3-letter currency code, ex. USD, EUR
-:param language: 2-letter language code, ex. en, de, fr, es
-:param unit: mm or inch
-:return:</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>country</code></strong></dt>
+<dd>2-letter country code, ex. US, FR, GB</dd>
+<dt><strong><code>currency</code></strong></dt>
+<dd>3-letter currency code, ex. USD, EUR</dd>
+<dt><strong><code>language</code></strong></dt>
+<dd>2-letter language code, ex. en, de, fr, es</dd>
+<dt><strong><code>unit</code></strong></dt>
+<dd>mm or inch</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -232,11 +225,11 @@ values will be saved to the profile.</p>
     Update profile of the current user. All arguments are optional, only passed
     values will be saved to the profile.
 
-    :param country: 2-letter country code, ex. US, FR, GB
-    :param currency: 3-letter currency code, ex. USD, EUR
-    :param language: 2-letter language code, ex. en, de, fr, es
-    :param unit: mm or inch
-    :return:
+    Args:
+        country: 2-letter country code, ex. US, FR, GB
+        currency: 3-letter currency code, ex. USD, EUR
+        language: 2-letter language code, ex. en, de, fr, es
+        unit: mm or inch
     &#34;&#34;&#34;
 
     json = self._get_parameters(
@@ -249,8 +242,7 @@ values will be saved to the profile.</p>
 <span>def <span class="ident">get_profile</span></span>(<span>self) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get profile of the current user: name, default address, access roles etc.</p>
-<p>:return:</p></div>
+<div class="desc"><p>Get profile of the current user: name, default address, access roles etc.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -258,8 +250,6 @@ values will be saved to the profile.</p>
 <pre><code class="python">def get_profile(self) -&gt; types.ResponseDict:
     &#34;&#34;&#34;
     Get profile of the current user: name, default address, access roles etc.
-
-    :return:
     &#34;&#34;&#34;
 
     return self._request(&#34;GET&#34;, &#34;my-profile/profile/&#34;)</code></pre>
@@ -269,8 +259,7 @@ values will be saved to the profile.</p>
 <span>def <span class="ident">get_addresses</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get a list of current user's addresses</p>
-<p>:return:</p></div>
+<div class="desc"><p>Get a list of current user's addresses</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -278,8 +267,6 @@ values will be saved to the profile.</p>
 <pre><code class="python">def get_addresses(self) -&gt; t.List[types.ResponseDict]:
     &#34;&#34;&#34;
     Get a list of current user&#39;s addresses
-
-    :return:
     &#34;&#34;&#34;
 
     return self._request(&#34;GET&#34;, &#34;my-profile/addresses/&#34;)</code></pre>
@@ -289,8 +276,7 @@ values will be saved to the profile.</p>
 <span>def <span class="ident">get_address</span></span>(<span>self, *, address_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get specific address of the current user</p>
-<p>:return:</p></div>
+<div class="desc"><p>Get specific address of the current user</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -298,8 +284,6 @@ values will be saved to the profile.</p>
 <pre><code class="python">def get_address(self, *, address_id: int) -&gt; types.ResponseDict:
     &#34;&#34;&#34;
     Get specific address of the current user
-
-    :return:
     &#34;&#34;&#34;
 
     return self._request(&#34;GET&#34;, f&#34;my-profile/addresses/{address_id}/&#34;)</code></pre>

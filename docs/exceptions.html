@@ -33,12 +33,14 @@
 
 
 class ObjectNotFound(BasePushTo3YourmindAPIException):
-    &#34;&#34;&#34;
-    Is raised when an API endpoint response is 404 - Object Not Found
-    &#34;&#34;&#34;
+    pass
 
 
 class Unauthorized(BasePushTo3YourmindAPIException):
+    pass
+
+
+class AccessDenied(BasePushTo3YourmindAPIException):
     pass
 
 
@@ -109,6 +111,7 @@ class CADFileNotFoundError(BasePushTo3YourmindAPIException):
 </ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
+<li><a title="push_to_3yourmind.exceptions.AccessDenied" href="#push_to_3yourmind.exceptions.AccessDenied">AccessDenied</a></li>
 <li><a title="push_to_3yourmind.exceptions.BadArgument" href="#push_to_3yourmind.exceptions.BadArgument">BadArgument</a></li>
 <li><a title="push_to_3yourmind.exceptions.BadRequest" href="#push_to_3yourmind.exceptions.BadRequest">BadRequest</a></li>
 <li><a title="push_to_3yourmind.exceptions.CADFileNotFoundError" href="#push_to_3yourmind.exceptions.CADFileNotFoundError">CADFileNotFoundError</a></li>
@@ -127,15 +130,13 @@ class CADFileNotFoundError(BasePushTo3YourmindAPIException):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Is raised when an API endpoint response is 404 - Object Not Found</p></div>
+<div class="desc"><p>Base exception class for all exceptions raised by push_to_3yourmind</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ObjectNotFound(BasePushTo3YourmindAPIException):
-    &#34;&#34;&#34;
-    Is raised when an API endpoint response is 404 - Object Not Found
-    &#34;&#34;&#34;</code></pre>
+    pass</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -155,6 +156,26 @@ class CADFileNotFoundError(BasePushTo3YourmindAPIException):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Unauthorized(BasePushTo3YourmindAPIException):
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="push_to_3yourmind.exceptions.BasePushTo3YourmindAPIException" href="#push_to_3yourmind.exceptions.BasePushTo3YourmindAPIException">BasePushTo3YourmindAPIException</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="push_to_3yourmind.exceptions.AccessDenied"><code class="flex name class">
+<span>class <span class="ident">AccessDenied</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base exception class for all exceptions raised by push_to_3yourmind</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccessDenied(BasePushTo3YourmindAPIException):
     pass</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -368,6 +389,9 @@ class CADFileNotFoundError(BasePushTo3YourmindAPIException):
 </li>
 <li>
 <h4><code><a title="push_to_3yourmind.exceptions.Unauthorized" href="#push_to_3yourmind.exceptions.Unauthorized">Unauthorized</a></code></h4>
+</li>
+<li>
+<h4><code><a title="push_to_3yourmind.exceptions.AccessDenied" href="#push_to_3yourmind.exceptions.AccessDenied">AccessDenied</a></code></h4>
 </li>
 <li>
 <h4><code><a title="push_to_3yourmind.exceptions.BadRequest" href="#push_to_3yourmind.exceptions.BadRequest">BadRequest</a></code></h4>

@@ -5,12 +5,14 @@ class BasePushTo3YourmindAPIException(Exception):
 
 
 class ObjectNotFound(BasePushTo3YourmindAPIException):
-    """
-    Is raised when an API endpoint response is 404 - Object Not Found
-    """
+    pass
 
 
 class Unauthorized(BasePushTo3YourmindAPIException):
+    pass
+
+
+class AccessDenied(BasePushTo3YourmindAPIException):
     pass
 
 

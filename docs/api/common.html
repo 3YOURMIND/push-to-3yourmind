@@ -36,6 +36,13 @@ __all__ = [&#34;CommonAPI&#34;]
 
 
 class CommonAPI(BaseAPI):
+    &#34;&#34;&#34;
+    API methods common to all panels.
+
+    Accessible via namespace `common`, for example:
+    &gt;&gt;&gt; response = client.common.get_colors()
+    &#34;&#34;&#34;
+
     def get_colors(self) -&gt; t.List[types.ResponseDict]:
         return self._request(&#34;GET&#34;, &#34;colors/&#34;)
 
@@ -43,21 +50,18 @@ class CommonAPI(BaseAPI):
         &#34;&#34;&#34;
         Get list of units of measure available on the platform.
         Currently, &#34;mm&#34; and &#34;inch&#34;.
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;units/&#34;)
 
     def get_countries(self) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get list of countries with codes and full names
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;countries/&#34;)
 
     def get_currencies(self) -&gt; t.List[str]:
         &#34;&#34;&#34;
         Get list of currencies available on the platform
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;currencies/&#34;)
 
@@ -82,14 +86,30 @@ class CommonAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all namespaced API methods.</p>
-<p>:param access_token:
-:param base_url:</p></div>
+<div class="desc"><p>API methods common to all panels.</p>
+<p>Accessible via namespace <code>common</code>, for example:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; response = client.common.get_colors()
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>access_token</code></strong></dt>
+<dd>to create a token, open <code>/admin/auth/user/</code>, and click
+"Create token" in the user list.</dd>
+<dt><strong><code>base_url</code></strong></dt>
+<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class CommonAPI(BaseAPI):
+    &#34;&#34;&#34;
+    API methods common to all panels.
+
+    Accessible via namespace `common`, for example:
+    &gt;&gt;&gt; response = client.common.get_colors()
+    &#34;&#34;&#34;
+
     def get_colors(self) -&gt; t.List[types.ResponseDict]:
         return self._request(&#34;GET&#34;, &#34;colors/&#34;)
 
@@ -97,21 +117,18 @@ class CommonAPI(BaseAPI):
         &#34;&#34;&#34;
         Get list of units of measure available on the platform.
         Currently, &#34;mm&#34; and &#34;inch&#34;.
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;units/&#34;)
 
     def get_countries(self) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get list of countries with codes and full names
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;countries/&#34;)
 
     def get_currencies(self) -&gt; t.List[str]:
         &#34;&#34;&#34;
         Get list of currencies available on the platform
-        :return:
         &#34;&#34;&#34;
         return self._request(&#34;GET&#34;, &#34;currencies/&#34;)
 
@@ -145,8 +162,7 @@ class CommonAPI(BaseAPI):
 </code></dt>
 <dd>
 <div class="desc"><p>Get list of units of measure available on the platform.
-Currently, "mm" and "inch".
-:return:</p></div>
+Currently, "mm" and "inch".</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -155,7 +171,6 @@ Currently, "mm" and "inch".
     &#34;&#34;&#34;
     Get list of units of measure available on the platform.
     Currently, &#34;mm&#34; and &#34;inch&#34;.
-    :return:
     &#34;&#34;&#34;
     return self._request(&#34;GET&#34;, &#34;units/&#34;)</code></pre>
 </details>
@@ -164,8 +179,7 @@ Currently, "mm" and "inch".
 <span>def <span class="ident">get_countries</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get list of countries with codes and full names
-:return:</p></div>
+<div class="desc"><p>Get list of countries with codes and full names</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -173,7 +187,6 @@ Currently, "mm" and "inch".
 <pre><code class="python">def get_countries(self) -&gt; t.List[types.ResponseDict]:
     &#34;&#34;&#34;
     Get list of countries with codes and full names
-    :return:
     &#34;&#34;&#34;
     return self._request(&#34;GET&#34;, &#34;countries/&#34;)</code></pre>
 </details>
@@ -182,8 +195,7 @@ Currently, "mm" and "inch".
 <span>def <span class="ident">get_currencies</span></span>(<span>self) ‑> List[str]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get list of currencies available on the platform
-:return:</p></div>
+<div class="desc"><p>Get list of currencies available on the platform</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -191,7 +203,6 @@ Currently, "mm" and "inch".
 <pre><code class="python">def get_currencies(self) -&gt; t.List[str]:
     &#34;&#34;&#34;
     Get list of currencies available on the platform
-    :return:
     &#34;&#34;&#34;
     return self._request(&#34;GET&#34;, &#34;currencies/&#34;)</code></pre>
 </details>
