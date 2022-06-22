@@ -36,12 +36,9 @@ placing orders, making requests for quotes, ordering quotes etc.
 import datetime
 import decimal
 import typing as t
-from io import IOBase, BytesIO
 import time
 
-import requests
-
-from push_to_3yourmind import types, exceptions
+from push_to_3yourmind import types, exceptions, utils
 from push_to_3yourmind.logger import logger
 from push_to_3yourmind.api.base import BaseAPI
 from push_to_3yourmind.types import NoValue
@@ -218,29 +215,7 @@ class UserPanelAPI(BaseAPI):
     ) -&gt; types.ResponseDict:
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
-        if isinstance(cad_file, str):
-            if cad_file.startswith(&#34;http&#34;):
-                response = requests.get(cad_file)
-                if response.status_code != 200:
-                    raise exceptions.CADFileNotFoundError(response.content)
-                cad_file_contents = BytesIO(response.content)
-                cad_file_contents.name = &#34;originalFile.stl&#34;
-            else:
-                try:
-                    with open(cad_file, &#34;rb&#34;) as cad_file_obj:
-                        cad_file_contents = BytesIO(cad_file_obj.read())
-                        cad_file_contents.name = cad_file_obj.name
-                except IOError as exc:
-                    raise exceptions.CADFileNotFoundError from exc
-
-        elif isinstance(cad_file, IOBase):
-            cad_file_contents = cad_file
-
-        else:
-            raise exceptions.BadArgument(
-                &#34;cad_file argument must be either a path to the CAD file &#34;
-                &#34;or a file-like object&#34;
-            )
+        cad_file_contents = utils.extract_file_content(cad_file)
 
         return self._request(
             &#34;POST&#34;, f&#34;/upload/&#34;, data=data, files={&#34;file&#34;: cad_file_contents}
@@ -436,6 +411,21 @@ class UserPanelAPI(BaseAPI):
             &#34;GET&#34;,
             f&#34;user-panel/services/{supplier_id}/shipping-methods/&#34;,
             params=query,
+        )
+
+    def create_catalog_item(self, basket_line_id: int):
+        return self._request(
+            &#34;POST&#34;,
+            &#34;user-panel/catalog/&#34;,
+            json={&#34;lineId&#34;: basket_line_id},
+        )
+
+    def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+        attachment_file_contents = utils.extract_file_content(attachment_file)
+        return self._request(
+            &#34;POST&#34;,
+            f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+            files={&#34;file&#34;: attachment_file_contents},
         )</code></pre>
 </details>
 </section>
@@ -643,29 +633,7 @@ class UserPanelAPI(BaseAPI):
     ) -&gt; types.ResponseDict:
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
-        if isinstance(cad_file, str):
-            if cad_file.startswith(&#34;http&#34;):
-                response = requests.get(cad_file)
-                if response.status_code != 200:
-                    raise exceptions.CADFileNotFoundError(response.content)
-                cad_file_contents = BytesIO(response.content)
-                cad_file_contents.name = &#34;originalFile.stl&#34;
-            else:
-                try:
-                    with open(cad_file, &#34;rb&#34;) as cad_file_obj:
-                        cad_file_contents = BytesIO(cad_file_obj.read())
-                        cad_file_contents.name = cad_file_obj.name
-                except IOError as exc:
-                    raise exceptions.CADFileNotFoundError from exc
-
-        elif isinstance(cad_file, IOBase):
-            cad_file_contents = cad_file
-
-        else:
-            raise exceptions.BadArgument(
-                &#34;cad_file argument must be either a path to the CAD file &#34;
-                &#34;or a file-like object&#34;
-            )
+        cad_file_contents = utils.extract_file_content(cad_file)
 
         return self._request(
             &#34;POST&#34;, f&#34;/upload/&#34;, data=data, files={&#34;file&#34;: cad_file_contents}
@@ -861,6 +829,21 @@ class UserPanelAPI(BaseAPI):
             &#34;GET&#34;,
             f&#34;user-panel/services/{supplier_id}/shipping-methods/&#34;,
             params=query,
+        )
+
+    def create_catalog_item(self, basket_line_id: int):
+        return self._request(
+            &#34;POST&#34;,
+            &#34;user-panel/catalog/&#34;,
+            json={&#34;lineId&#34;: basket_line_id},
+        )
+
+    def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+        attachment_file_contents = utils.extract_file_content(attachment_file)
+        return self._request(
+            &#34;POST&#34;,
+            f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+            files={&#34;file&#34;: attachment_file_contents},
         )</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1203,29 +1186,7 @@ class UserPanelAPI(BaseAPI):
 ) -&gt; types.ResponseDict:
 
     data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
-    if isinstance(cad_file, str):
-        if cad_file.startswith(&#34;http&#34;):
-            response = requests.get(cad_file)
-            if response.status_code != 200:
-                raise exceptions.CADFileNotFoundError(response.content)
-            cad_file_contents = BytesIO(response.content)
-            cad_file_contents.name = &#34;originalFile.stl&#34;
-        else:
-            try:
-                with open(cad_file, &#34;rb&#34;) as cad_file_obj:
-                    cad_file_contents = BytesIO(cad_file_obj.read())
-                    cad_file_contents.name = cad_file_obj.name
-            except IOError as exc:
-                raise exceptions.CADFileNotFoundError from exc
-
-    elif isinstance(cad_file, IOBase):
-        cad_file_contents = cad_file
-
-    else:
-        raise exceptions.BadArgument(
-            &#34;cad_file argument must be either a path to the CAD file &#34;
-            &#34;or a file-like object&#34;
-        )
+    cad_file_contents = utils.extract_file_content(cad_file)
 
     return self._request(
         &#34;POST&#34;, f&#34;/upload/&#34;, data=data, files={&#34;file&#34;: cad_file_contents}
@@ -1562,6 +1523,41 @@ place order from quote with payment method</p></div>
     )</code></pre>
 </details>
 </dd>
+<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_catalog_item"><code class="name flex">
+<span>def <span class="ident">create_catalog_item</span></span>(<span>self, basket_line_id: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_catalog_item(self, basket_line_id: int):
+    return self._request(
+        &#34;POST&#34;,
+        &#34;user-panel/catalog/&#34;,
+        json={&#34;lineId&#34;: basket_line_id},
+    )</code></pre>
+</details>
+</dd>
+<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_catalog_item_attachment"><code class="name flex">
+<span>def <span class="ident">upload_catalog_item_attachment</span></span>(<span>self, catalog_item_id: int, attachment_file: Union[str, IO])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+    attachment_file_contents = utils.extract_file_content(attachment_file)
+    return self._request(
+        &#34;POST&#34;,
+        f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+        files={&#34;file&#34;: attachment_file_contents},
+    )</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1609,6 +1605,8 @@ place order from quote with payment method</p></div>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.quick_order_quote" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.quick_order_quote">quick_order_quote</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_payment_methods" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_payment_methods">get_payment_methods</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_shipping_methods" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_shipping_methods">get_shipping_methods</a></code></li>
+<li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.create_catalog_item" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.create_catalog_item">create_catalog_item</a></code></li>
+<li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_catalog_item_attachment" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.upload_catalog_item_attachment">upload_catalog_item_attachment</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_MAX_ATTEMPTS" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_MAX_ATTEMPTS">CHECK_FILE_STATUS_MAX_ATTEMPTS</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_DELAY" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_DELAY">CHECK_FILE_STATUS_DELAY</a></code></li>
 </ul>
