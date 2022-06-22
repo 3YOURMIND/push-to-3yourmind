@@ -5,12 +5,9 @@ placing orders, making requests for quotes, ordering quotes etc.
 import datetime
 import decimal
 import typing as t
-from io import IOBase, BytesIO
 import time
 
-import requests
-
-from push_to_3yourmind import types, exceptions
+from push_to_3yourmind import types, exceptions, utils
 from push_to_3yourmind.logger import logger
 from push_to_3yourmind.api.base import BaseAPI
 from push_to_3yourmind.types import NoValue
@@ -35,8 +32,8 @@ class UserPanelAPI(BaseAPI):
     def get_baskets(
         self,
         *,
-        page: types.OptionalNumber = NoValue,
-        page_size: types.OptionalNumber = NoValue,
+        page: types.OptionalInteger = NoValue,
+        page_size: types.OptionalInteger = NoValue,
     ) -> t.List[types.ResponseDict]:
         """
         Get all baskets of the current user. Returns paginated list.
@@ -72,9 +69,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         currency: str,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
-        billing_address_id: types.OptionalNumber = types.NoValue,
-        shipping_method_id: types.OptionalNumber = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
+        billing_address_id: types.OptionalInteger = types.NoValue,
+        shipping_method_id: types.OptionalInteger = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -> types.ResponseDict:
         """
@@ -109,7 +106,7 @@ class UserPanelAPI(BaseAPI):
         return self._request("DELETE", f"user-panel/baskets/{basket_id}/")
 
     def update_basket(
-        self, *, basket_id: int, title: types.OptionalNumber = NoValue
+        self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
     ) -> types.ResponseDict:
         json = self._get_parameters(title=title)
         return self._request("PATCH", f"user-panel/baskets/{basket_id}/", json=json)
@@ -128,9 +125,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         line_id: int,
-        quantity: types.OptionalNumber = types.NoValue,
-        product_id: types.OptionalNumber = types.NoValue,
-        post_processing_ids: types.OptionalNumberSequence = (),
+        quantity: types.OptionalInteger = types.NoValue,
+        product_id: types.OptionalInteger = types.NoValue,
+        post_processing_ids: types.OptionalIntegerSequence = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
 
@@ -187,29 +184,7 @@ class UserPanelAPI(BaseAPI):
     ) -> types.ResponseDict:
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
-        if isinstance(cad_file, str):
-            if cad_file.startswith("http"):
-                response = requests.get(cad_file)
-                if response.status_code != 200:
-                    raise exceptions.CADFileNotFoundError(response.content)
-                cad_file_contents = BytesIO(response.content)
-                cad_file_contents.name = "originalFile.stl"
-            else:
-                try:
-                    with open(cad_file, "rb") as cad_file_obj:
-                        cad_file_contents = BytesIO(cad_file_obj.read())
-                        cad_file_contents.name = cad_file_obj.name
-                except IOError as exc:
-                    raise exceptions.CADFileNotFoundError from exc
-
-        elif isinstance(cad_file, IOBase):
-            cad_file_contents = cad_file
-
-        else:
-            raise exceptions.BadArgument(
-                "cad_file argument must be either a path to the CAD file "
-                "or a file-like object"
-            )
+        cad_file_contents = utils.extract_file_content(cad_file)
 
         return self._request(
             "POST", f"/upload/", data=data, files={"file": cad_file_contents}
@@ -395,8 +370,8 @@ class UserPanelAPI(BaseAPI):
         self,
         *,
         supplier_id: int,
-        quote_id: types.OptionalNumber = types.NoValue,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
+        quote_id: types.OptionalInteger = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
     ) -> t.Sequence[types.ResponseDict]:
         query = self._get_parameters(
             quoteId=quote_id, shippingAddressId=shipping_address_id
@@ -405,4 +380,23 @@ class UserPanelAPI(BaseAPI):
             "GET",
             f"user-panel/services/{supplier_id}/shipping-methods/",
             params=query,
+        )
+
+    def create_catalog_item(self, basket_line_id: int) -> types.ResponseDict:
+        return self._request(
+            "POST",
+            "user-panel/catalog/",
+            json={"lineId": basket_line_id},
+        )
+
+    def upload_catalog_item_attachment(
+            self,
+            catalog_item_id: int,
+            attachment_file: types.AttachmentFileSpecifier,
+    ) -> types.ResponseDict:
+        attachment_file_contents = utils.extract_file_content(attachment_file)
+        return self._request(
+            "POST",
+            f"user-panel/catalogue/{catalog_item_id}/attachments/",
+            files={"file": attachment_file_contents},
         )

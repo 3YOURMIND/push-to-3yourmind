@@ -65,7 +65,7 @@ ResponseDict = t.Dict[str, t.Any]
 AnyResponse = t.Union[str, ResponseDict, t.List[ResponseDict], t.List[str]]
 RequestMethod = t.Literal[&#34;GET&#34;, &#34;PUT&#34;, &#34;POST&#34;, &#34;DELETE&#34;, &#34;PATCH&#34;, &#34;HEAD&#34;]
 Unit = t.Literal[&#34;mm&#34;, &#34;inch&#34;]
-CadFileSpecifier = t.Union[str, t.IO]
+AttachmentFileSpecifier = CadFileSpecifier = t.Union[str, t.IO]
 
 OptionalNumber = t.Union[int, float, decimal.Decimal, t.Type[NoValue]]
 OptionalNumberSequence = t.Sequence[OptionalNumber]
