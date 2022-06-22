@@ -32,8 +32,8 @@ class UserPanelAPI(BaseAPI):
     def get_baskets(
         self,
         *,
-        page: types.OptionalNumber = NoValue,
-        page_size: types.OptionalNumber = NoValue,
+        page: types.OptionalInteger = NoValue,
+        page_size: types.OptionalInteger = NoValue,
     ) -> t.List[types.ResponseDict]:
         """
         Get all baskets of the current user. Returns paginated list.
@@ -69,9 +69,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         currency: str,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
-        billing_address_id: types.OptionalNumber = types.NoValue,
-        shipping_method_id: types.OptionalNumber = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
+        billing_address_id: types.OptionalInteger = types.NoValue,
+        shipping_method_id: types.OptionalInteger = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -> types.ResponseDict:
         """
@@ -106,7 +106,7 @@ class UserPanelAPI(BaseAPI):
         return self._request("DELETE", f"user-panel/baskets/{basket_id}/")
 
     def update_basket(
-        self, *, basket_id: int, title: types.OptionalNumber = NoValue
+        self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
     ) -> types.ResponseDict:
         json = self._get_parameters(title=title)
         return self._request("PATCH", f"user-panel/baskets/{basket_id}/", json=json)
@@ -125,9 +125,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         line_id: int,
-        quantity: types.OptionalNumber = types.NoValue,
-        product_id: types.OptionalNumber = types.NoValue,
-        post_processing_ids: types.OptionalNumberSequence = (),
+        quantity: types.OptionalInteger = types.NoValue,
+        product_id: types.OptionalInteger = types.NoValue,
+        post_processing_ids: types.OptionalIntegerSequence = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
 
@@ -370,8 +370,8 @@ class UserPanelAPI(BaseAPI):
         self,
         *,
         supplier_id: int,
-        quote_id: types.OptionalNumber = types.NoValue,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
+        quote_id: types.OptionalInteger = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
     ) -> t.Sequence[types.ResponseDict]:
         query = self._get_parameters(
             quoteId=quote_id, shippingAddressId=shipping_address_id

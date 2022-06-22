@@ -31,15 +31,17 @@ class NoValue:
     ... it will mean that you want to set user's country, currency and language setting to NULL.
     """
 
-
+NoValueType = t.Type[NoValue]
 ResponseDict = t.Dict[str, t.Any]
 AnyResponse = t.Union[str, ResponseDict, t.List[ResponseDict], t.List[str]]
 RequestMethod = t.Literal["GET", "PUT", "POST", "DELETE", "PATCH", "HEAD"]
 Unit = t.Literal["mm", "inch"]
-CadFileSpecifier = t.Union[str, t.IO]
+AttachmentFileSpecifier = CadFileSpecifier = t.Union[str, t.IO]
 
-OptionalNumber = t.Union[int, float, decimal.Decimal, t.Type[NoValue]]
+OptionalInteger = t.Union[int, NoValueType]
+OptionalIntegerSequence = t.Sequence[OptionalInteger]
+OptionalNumber = t.Union[int, float, decimal.Decimal, NoValueType]
 OptionalNumberSequence = t.Sequence[OptionalNumber]
-OptionalString = t.Union[str, bytes, t.Type[NoValue]]
-OptionalDate = t.Union[datetime.date, t.Type[NoValue]]
-OptionalDateTime = t.Union[datetime.datetime, t.Type[NoValue]]
+OptionalString = t.Union[str, bytes, NoValueType]
+OptionalDate = t.Union[datetime.date, NoValueType]
+OptionalDateTime = t.Union[datetime.datetime, NoValueType]
