@@ -382,14 +382,18 @@ class UserPanelAPI(BaseAPI):
             params=query,
         )
 
-    def create_catalog_item(self, basket_line_id: int):
+    def create_catalog_item(self, basket_line_id: int) -> types.ResponseDict:
         return self._request(
             "POST",
             "user-panel/catalog/",
             json={"lineId": basket_line_id},
         )
 
-    def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+    def upload_catalog_item_attachment(
+            self,
+            catalog_item_id: int,
+            attachment_file: types.AttachmentFileSpecifier,
+    ) -> types.ResponseDict:
         attachment_file_contents = utils.extract_file_content(attachment_file)
         return self._request(
             "POST",
