@@ -397,6 +397,6 @@ class UserPanelAPI(BaseAPI):
         attachment_file_contents = utils.extract_file_content(attachment_file)
         return self._request(
             "POST",
-            f"user-panel/catalogue/{catalog_item_id}/attachments/",
+            f"user-panel/catalog/{catalog_item_id}/attachments/",
             files={"file": attachment_file_contents},
         )
