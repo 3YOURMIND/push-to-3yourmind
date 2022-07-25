@@ -2,6 +2,7 @@
 Groups API functionality from the User Panel, such as creating/updating baskets,
 placing orders, making requests for quotes, ordering quotes etc.
 """
+
 import datetime
 import decimal
 import typing as t
@@ -127,14 +128,15 @@ class UserPanelAPI(BaseAPI):
         line_id: int,
         quantity: types.OptionalInteger = types.NoValue,
         product_id: types.OptionalInteger = types.NoValue,
-        post_processing_ids: types.OptionalIntegerSequence = (),
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
 
-        post_processings = [
-            {"postProcessingId": post_processing_id}
-            for post_processing_id in post_processing_ids
-        ]
+        if post_processings:
+            post_processings = [
+                {"postProcessingId": pp.post_processing_id, "colorId": pp.color_id}
+                for pp in post_processings
+            ]
         if isinstance(preferred_due_date, datetime.date):
             preferred_due_date = preferred_due_date.strftime("%Y-%m-%d")
         json = self._get_parameters(
@@ -145,6 +147,24 @@ class UserPanelAPI(BaseAPI):
         )
         return self._request(
             "PATCH", f"user-panel/baskets/{basket_id}/lines/{line_id}/", json=json
+        )
+
+    def add_part_requirements_to_basket_line(
+            self,
+            *,
+            line_id: int,
+            form_data: types.FormData,
+    ):
+        json = {
+            "formId": form_data.form_id,
+            "fields": [
+                {"formFieldId": field.form_field_id, "value": field.value} 
+                for field in form_data.fields
+            ]
+        }
+        return self._request(
+            "POST", f"user-panel/forms/basket-line/{line_id}/",
+            json=json,
         )
 
     def get_materials(
@@ -197,7 +217,7 @@ class UserPanelAPI(BaseAPI):
         cad_file: types.CadFileSpecifier,
         product_id: int,
         quantity: int,
-        post_processing_ids: t.Sequence[int] = (),
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
         preferences = self._request("GET", "my-profile/preferences/")
@@ -215,7 +235,7 @@ class UserPanelAPI(BaseAPI):
             line_id=line_id,
             quantity=quantity,
             product_id=product_id,
-            post_processing_ids=post_processing_ids,
+            post_processings=post_processings,
             preferred_due_date=preferred_due_date,
         )
 
