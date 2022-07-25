@@ -31,6 +31,7 @@
 This module contains NoValue class and type aliases for type annotations
 &#34;&#34;&#34;
 
+from dataclasses import dataclass
 import datetime
 import decimal
 import typing as t
@@ -60,18 +61,38 @@ class NoValue:
     ... it will mean that you want to set user&#39;s country, currency and language setting to NULL.
     &#34;&#34;&#34;
 
-
+NoValueType = t.Type[NoValue]
 ResponseDict = t.Dict[str, t.Any]
 AnyResponse = t.Union[str, ResponseDict, t.List[ResponseDict], t.List[str]]
 RequestMethod = t.Literal[&#34;GET&#34;, &#34;PUT&#34;, &#34;POST&#34;, &#34;DELETE&#34;, &#34;PATCH&#34;, &#34;HEAD&#34;]
 Unit = t.Literal[&#34;mm&#34;, &#34;inch&#34;]
 AttachmentFileSpecifier = CadFileSpecifier = t.Union[str, t.IO]
 
-OptionalNumber = t.Union[int, float, decimal.Decimal, t.Type[NoValue]]
-OptionalNumberSequence = t.Sequence[OptionalNumber]
-OptionalString = t.Union[str, bytes, t.Type[NoValue]]
-OptionalDate = t.Union[datetime.date, t.Type[NoValue]]
-OptionalDateTime = t.Union[datetime.datetime, t.Type[NoValue]]</code></pre>
+OptionalInteger = t.Union[int, NoValueType]
+OptionalIntegerSequence = t.Union[t.Sequence[int], NoValueType]
+OptionalNumber = t.Union[int, float, decimal.Decimal, NoValueType]
+OptionalNumberSequence = t.Union[t.Sequence[t.Union[int, float, decimal.Decimal]], NoValueType]
+OptionalString = t.Union[str, bytes, NoValueType]
+OptionalDate = t.Union[datetime.date, NoValueType]
+OptionalDateTime = t.Union[datetime.datetime, NoValueType]
+
+
+@dataclass
+class FormField:
+    form_field_id: int
+    value: t.Union[str, bool, int, float, t.List[int], t.List[str], None]
+
+
+@dataclass
+class FormData:
+    form_id: int
+    fields: t.Sequence[FormField]
+
+
+@dataclass
+class PostProcessingConfig:
+    post_processing_id: int
+    color_id: t.Union[int, NoValueType]</code></pre>
 </details>
 </section>
 <section>
