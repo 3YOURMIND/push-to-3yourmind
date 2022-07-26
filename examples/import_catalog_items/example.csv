@@ -1,0 +1,4 @@
+stl_file,product_id,post_processing_ids,attachments,function
+cube.stl,1,,a.txt,automotive
+cube.stl,2,4,b.txt,automotive
+cube.stl,2,5 6,a.txt b.txt,aerospace

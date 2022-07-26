@@ -70,6 +70,9 @@ class CommonAPI(BaseAPI):
     def get_materials(self) -&gt; t.List[types.ResponseDict]:
         return self._request(&#34;GET&#34;, &#34;materials/&#34;)
 
+    def get_forms(self):
+        return self._request(&#34;GET&#34;, &#34;forms/&#34;)
+
     def get_tax_types(self) -&gt; t.List[str]:
         return self._request(&#34;GET&#34;, &#34;tax-types/&#34;)</code></pre>
 </details>
@@ -133,6 +136,9 @@ class CommonAPI(BaseAPI):
 
     def get_materials(self) -&gt; t.List[types.ResponseDict]:
         return self._request(&#34;GET&#34;, &#34;materials/&#34;)
+
+    def get_forms(self):
+        return self._request(&#34;GET&#34;, &#34;forms/&#34;)
 
     def get_tax_types(self) -&gt; t.List[str]:
         return self._request(&#34;GET&#34;, &#34;tax-types/&#34;)</code></pre>
@@ -219,6 +225,19 @@ Currently, "mm" and "inch".</p></div>
     return self._request(&#34;GET&#34;, &#34;materials/&#34;)</code></pre>
 </details>
 </dd>
+<dt id="push_to_3yourmind.api.common.CommonAPI.get_forms"><code class="name flex">
+<span>def <span class="ident">get_forms</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_forms(self):
+    return self._request(&#34;GET&#34;, &#34;forms/&#34;)</code></pre>
+</details>
+</dd>
 <dt id="push_to_3yourmind.api.common.CommonAPI.get_tax_types"><code class="name flex">
 <span>def <span class="ident">get_tax_types</span></span>(<span>self) ‑> List[str]</span>
 </code></dt>
@@ -258,6 +277,7 @@ Currently, "mm" and "inch".</p></div>
 <li><code><a title="push_to_3yourmind.api.common.CommonAPI.get_countries" href="#push_to_3yourmind.api.common.CommonAPI.get_countries">get_countries</a></code></li>
 <li><code><a title="push_to_3yourmind.api.common.CommonAPI.get_currencies" href="#push_to_3yourmind.api.common.CommonAPI.get_currencies">get_currencies</a></code></li>
 <li><code><a title="push_to_3yourmind.api.common.CommonAPI.get_materials" href="#push_to_3yourmind.api.common.CommonAPI.get_materials">get_materials</a></code></li>
+<li><code><a title="push_to_3yourmind.api.common.CommonAPI.get_forms" href="#push_to_3yourmind.api.common.CommonAPI.get_forms">get_forms</a></code></li>
 <li><code><a title="push_to_3yourmind.api.common.CommonAPI.get_tax_types" href="#push_to_3yourmind.api.common.CommonAPI.get_tax_types">get_tax_types</a></code></li>
 </ul>
 </li>

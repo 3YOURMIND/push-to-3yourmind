@@ -2,6 +2,7 @@
 This module contains NoValue class and type aliases for type annotations
 """
 
+from dataclasses import dataclass
 import datetime
 import decimal
 import typing as t
@@ -45,3 +46,21 @@ OptionalNumberSequence = t.Union[t.Sequence[t.Union[int, float, decimal.Decimal]
 OptionalString = t.Union[str, bytes, NoValueType]
 OptionalDate = t.Union[datetime.date, NoValueType]
 OptionalDateTime = t.Union[datetime.datetime, NoValueType]
+
+
+@dataclass
+class FormField:
+    form_field_id: int
+    value: t.Union[str, bool, int, float, t.List[int], t.List[str], None]
+
+
+@dataclass
+class FormData:
+    form_id: int
+    fields: t.Sequence[FormField]
+
+
+@dataclass
+class PostProcessingConfig:
+    post_processing_id: int
+    color_id: t.Union[int, NoValueType]

@@ -33,6 +33,7 @@ placing orders, making requests for quotes, ordering quotes etc.</p>
 Groups API functionality from the User Panel, such as creating/updating baskets,
 placing orders, making requests for quotes, ordering quotes etc.
 &#34;&#34;&#34;
+
 import datetime
 import decimal
 import typing as t
@@ -63,8 +64,8 @@ class UserPanelAPI(BaseAPI):
     def get_baskets(
         self,
         *,
-        page: types.OptionalNumber = NoValue,
-        page_size: types.OptionalNumber = NoValue,
+        page: types.OptionalInteger = NoValue,
+        page_size: types.OptionalInteger = NoValue,
     ) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get all baskets of the current user. Returns paginated list.
@@ -100,9 +101,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         currency: str,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
-        billing_address_id: types.OptionalNumber = types.NoValue,
-        shipping_method_id: types.OptionalNumber = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
+        billing_address_id: types.OptionalInteger = types.NoValue,
+        shipping_method_id: types.OptionalInteger = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
@@ -137,7 +138,7 @@ class UserPanelAPI(BaseAPI):
         return self._request(&#34;DELETE&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
 
     def update_basket(
-        self, *, basket_id: int, title: types.OptionalNumber = NoValue
+        self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
     ) -&gt; types.ResponseDict:
         json = self._get_parameters(title=title)
         return self._request(&#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;, json=json)
@@ -156,16 +157,17 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         line_id: int,
-        quantity: types.OptionalNumber = types.NoValue,
-        product_id: types.OptionalNumber = types.NoValue,
-        post_processing_ids: types.OptionalNumberSequence = (),
+        quantity: types.OptionalInteger = types.NoValue,
+        product_id: types.OptionalInteger = types.NoValue,
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
 
-        post_processings = [
-            {&#34;postProcessingId&#34;: post_processing_id}
-            for post_processing_id in post_processing_ids
-        ]
+        if post_processings:
+            post_processings = [
+                {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
+                for pp in post_processings
+            ]
         if isinstance(preferred_due_date, datetime.date):
             preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
         json = self._get_parameters(
@@ -176,6 +178,24 @@ class UserPanelAPI(BaseAPI):
         )
         return self._request(
             &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
+        )
+
+    def add_part_requirements_to_basket_line(
+            self,
+            *,
+            line_id: int,
+            form_data: types.FormData,
+    ):
+        json = {
+            &#34;formId&#34;: form_data.form_id,
+            &#34;fields&#34;: [
+                {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
+                for field in form_data.fields
+            ]
+        }
+        return self._request(
+            &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
+            json=json,
         )
 
     def get_materials(
@@ -228,7 +248,7 @@ class UserPanelAPI(BaseAPI):
         cad_file: types.CadFileSpecifier,
         product_id: int,
         quantity: int,
-        post_processing_ids: t.Sequence[int] = (),
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
         preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -246,7 +266,7 @@ class UserPanelAPI(BaseAPI):
             line_id=line_id,
             quantity=quantity,
             product_id=product_id,
-            post_processing_ids=post_processing_ids,
+            post_processings=post_processings,
             preferred_due_date=preferred_due_date,
         )
 
@@ -401,8 +421,8 @@ class UserPanelAPI(BaseAPI):
         self,
         *,
         supplier_id: int,
-        quote_id: types.OptionalNumber = types.NoValue,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
+        quote_id: types.OptionalInteger = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
     ) -&gt; t.Sequence[types.ResponseDict]:
         query = self._get_parameters(
             quoteId=quote_id, shippingAddressId=shipping_address_id
@@ -413,18 +433,22 @@ class UserPanelAPI(BaseAPI):
             params=query,
         )
 
-    def create_catalog_item(self, basket_line_id: int):
+    def create_catalog_item(self, basket_line_id: int) -&gt; types.ResponseDict:
         return self._request(
             &#34;POST&#34;,
             &#34;user-panel/catalog/&#34;,
             json={&#34;lineId&#34;: basket_line_id},
         )
 
-    def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+    def upload_catalog_item_attachment(
+            self,
+            catalog_item_id: int,
+            attachment_file: types.AttachmentFileSpecifier,
+    ) -&gt; types.ResponseDict:
         attachment_file_contents = utils.extract_file_content(attachment_file)
         return self._request(
             &#34;POST&#34;,
-            f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+            f&#34;user-panel/catalog/{catalog_item_id}/attachments/&#34;,
             files={&#34;file&#34;: attachment_file_contents},
         )</code></pre>
 </details>
@@ -481,8 +505,8 @@ class UserPanelAPI(BaseAPI):
     def get_baskets(
         self,
         *,
-        page: types.OptionalNumber = NoValue,
-        page_size: types.OptionalNumber = NoValue,
+        page: types.OptionalInteger = NoValue,
+        page_size: types.OptionalInteger = NoValue,
     ) -&gt; t.List[types.ResponseDict]:
         &#34;&#34;&#34;
         Get all baskets of the current user. Returns paginated list.
@@ -518,9 +542,9 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         currency: str,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
-        billing_address_id: types.OptionalNumber = types.NoValue,
-        shipping_method_id: types.OptionalNumber = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
+        billing_address_id: types.OptionalInteger = types.NoValue,
+        shipping_method_id: types.OptionalInteger = types.NoValue,
         voucher_code: types.OptionalString = types.NoValue,
     ) -&gt; types.ResponseDict:
         &#34;&#34;&#34;
@@ -555,7 +579,7 @@ class UserPanelAPI(BaseAPI):
         return self._request(&#34;DELETE&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
 
     def update_basket(
-        self, *, basket_id: int, title: types.OptionalNumber = NoValue
+        self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
     ) -&gt; types.ResponseDict:
         json = self._get_parameters(title=title)
         return self._request(&#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;, json=json)
@@ -574,16 +598,17 @@ class UserPanelAPI(BaseAPI):
         *,
         basket_id: int,
         line_id: int,
-        quantity: types.OptionalNumber = types.NoValue,
-        product_id: types.OptionalNumber = types.NoValue,
-        post_processing_ids: types.OptionalNumberSequence = (),
+        quantity: types.OptionalInteger = types.NoValue,
+        product_id: types.OptionalInteger = types.NoValue,
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
 
-        post_processings = [
-            {&#34;postProcessingId&#34;: post_processing_id}
-            for post_processing_id in post_processing_ids
-        ]
+        if post_processings:
+            post_processings = [
+                {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
+                for pp in post_processings
+            ]
         if isinstance(preferred_due_date, datetime.date):
             preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
         json = self._get_parameters(
@@ -594,6 +619,24 @@ class UserPanelAPI(BaseAPI):
         )
         return self._request(
             &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
+        )
+
+    def add_part_requirements_to_basket_line(
+            self,
+            *,
+            line_id: int,
+            form_data: types.FormData,
+    ):
+        json = {
+            &#34;formId&#34;: form_data.form_id,
+            &#34;fields&#34;: [
+                {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
+                for field in form_data.fields
+            ]
+        }
+        return self._request(
+            &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
+            json=json,
         )
 
     def get_materials(
@@ -646,7 +689,7 @@ class UserPanelAPI(BaseAPI):
         cad_file: types.CadFileSpecifier,
         product_id: int,
         quantity: int,
-        post_processing_ids: t.Sequence[int] = (),
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
         preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -664,7 +707,7 @@ class UserPanelAPI(BaseAPI):
             line_id=line_id,
             quantity=quantity,
             product_id=product_id,
-            post_processing_ids=post_processing_ids,
+            post_processings=post_processings,
             preferred_due_date=preferred_due_date,
         )
 
@@ -819,8 +862,8 @@ class UserPanelAPI(BaseAPI):
         self,
         *,
         supplier_id: int,
-        quote_id: types.OptionalNumber = types.NoValue,
-        shipping_address_id: types.OptionalNumber = types.NoValue,
+        quote_id: types.OptionalInteger = types.NoValue,
+        shipping_address_id: types.OptionalInteger = types.NoValue,
     ) -&gt; t.Sequence[types.ResponseDict]:
         query = self._get_parameters(
             quoteId=quote_id, shippingAddressId=shipping_address_id
@@ -831,18 +874,22 @@ class UserPanelAPI(BaseAPI):
             params=query,
         )
 
-    def create_catalog_item(self, basket_line_id: int):
+    def create_catalog_item(self, basket_line_id: int) -&gt; types.ResponseDict:
         return self._request(
             &#34;POST&#34;,
             &#34;user-panel/catalog/&#34;,
             json={&#34;lineId&#34;: basket_line_id},
         )
 
-    def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+    def upload_catalog_item_attachment(
+            self,
+            catalog_item_id: int,
+            attachment_file: types.AttachmentFileSpecifier,
+    ) -&gt; types.ResponseDict:
         attachment_file_contents = utils.extract_file_content(attachment_file)
         return self._request(
             &#34;POST&#34;,
-            f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+            f&#34;user-panel/catalog/{catalog_item_id}/attachments/&#34;,
             files={&#34;file&#34;: attachment_file_contents},
         )</code></pre>
 </details>
@@ -864,7 +911,7 @@ class UserPanelAPI(BaseAPI):
 <h3>Methods</h3>
 <dl>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_baskets"><code class="name flex">
-<span>def <span class="ident">get_baskets</span></span>(<span>self, *, page: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, page_size: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> List[Dict[str, Any]]</span>
+<span>def <span class="ident">get_baskets</span></span>(<span>self, *, page: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, page_size: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Get all baskets of the current user. Returns paginated list.</p>
@@ -891,8 +938,8 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_baskets(
     self,
     *,
-    page: types.OptionalNumber = NoValue,
-    page_size: types.OptionalNumber = NoValue,
+    page: types.OptionalInteger = NoValue,
+    page_size: types.OptionalInteger = NoValue,
 ) -&gt; t.List[types.ResponseDict]:
     &#34;&#34;&#34;
     Get all baskets of the current user. Returns paginated list.
@@ -941,7 +988,7 @@ class UserPanelAPI(BaseAPI):
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_price"><code class="name flex">
-<span>def <span class="ident">get_basket_price</span></span>(<span>self, *, basket_id: int, currency: str, shipping_address_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, billing_address_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_method_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, voucher_code: Union[str, bytes, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">get_basket_price</span></span>(<span>self, *, basket_id: int, currency: str, shipping_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, billing_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_method_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, voucher_code: Union[str, bytes, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Calculate basket's price, given additional optional shipping, billing information</p>
@@ -971,9 +1018,9 @@ class UserPanelAPI(BaseAPI):
     *,
     basket_id: int,
     currency: str,
-    shipping_address_id: types.OptionalNumber = types.NoValue,
-    billing_address_id: types.OptionalNumber = types.NoValue,
-    shipping_method_id: types.OptionalNumber = types.NoValue,
+    shipping_address_id: types.OptionalInteger = types.NoValue,
+    billing_address_id: types.OptionalInteger = types.NoValue,
+    shipping_method_id: types.OptionalInteger = types.NoValue,
     voucher_code: types.OptionalString = types.NoValue,
 ) -&gt; types.ResponseDict:
     &#34;&#34;&#34;
@@ -1029,7 +1076,7 @@ class UserPanelAPI(BaseAPI):
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket"><code class="name flex">
-<span>def <span class="ident">update_basket</span></span>(<span>self, *, basket_id: int, title: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">update_basket</span></span>(<span>self, *, basket_id: int, title: Union[str, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1038,7 +1085,7 @@ class UserPanelAPI(BaseAPI):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update_basket(
-    self, *, basket_id: int, title: types.OptionalNumber = NoValue
+    self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
 ) -&gt; types.ResponseDict:
     json = self._get_parameters(title=title)
     return self._request(&#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;, json=json)</code></pre>
@@ -1084,7 +1131,7 @@ class UserPanelAPI(BaseAPI):
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line"><code class="name flex">
-<span>def <span class="ident">update_basket_line</span></span>(<span>self, *, basket_id: int, line_id: int, quantity: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, product_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, post_processing_ids: Sequence[Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]]] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">update_basket_line</span></span>(<span>self, *, basket_id: int, line_id: int, quantity: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, product_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, post_processings: Sequence[push_to_3yourmind.types.PostProcessingConfig] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1097,16 +1144,17 @@ class UserPanelAPI(BaseAPI):
     *,
     basket_id: int,
     line_id: int,
-    quantity: types.OptionalNumber = types.NoValue,
-    product_id: types.OptionalNumber = types.NoValue,
-    post_processing_ids: types.OptionalNumberSequence = (),
+    quantity: types.OptionalInteger = types.NoValue,
+    product_id: types.OptionalInteger = types.NoValue,
+    post_processings: t.Sequence[types.PostProcessingConfig] = (),
     preferred_due_date: types.OptionalDate = types.NoValue,
 ) -&gt; types.ResponseDict:
 
-    post_processings = [
-        {&#34;postProcessingId&#34;: post_processing_id}
-        for post_processing_id in post_processing_ids
-    ]
+    if post_processings:
+        post_processings = [
+            {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
+            for pp in post_processings
+        ]
     if isinstance(preferred_due_date, datetime.date):
         preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
     json = self._get_parameters(
@@ -1117,6 +1165,34 @@ class UserPanelAPI(BaseAPI):
     )
     return self._request(
         &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
+    )</code></pre>
+</details>
+</dd>
+<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line"><code class="name flex">
+<span>def <span class="ident">add_part_requirements_to_basket_line</span></span>(<span>self, *, line_id: int, form_data: push_to_3yourmind.types.FormData)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_part_requirements_to_basket_line(
+        self,
+        *,
+        line_id: int,
+        form_data: types.FormData,
+):
+    json = {
+        &#34;formId&#34;: form_data.form_id,
+        &#34;fields&#34;: [
+            {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
+            for field in form_data.fields
+        ]
+    }
+    return self._request(
+        &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
+        json=json,
     )</code></pre>
 </details>
 </dd>
@@ -1194,7 +1270,7 @@ class UserPanelAPI(BaseAPI):
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_line_with_cad_file_and_product"><code class="name flex">
-<span>def <span class="ident">create_line_with_cad_file_and_product</span></span>(<span>self, *, basket_id: int, cad_file: Union[str, IO], product_id: int, quantity: int, post_processing_ids: Sequence[int] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">create_line_with_cad_file_and_product</span></span>(<span>self, *, basket_id: int, cad_file: Union[str, IO], product_id: int, quantity: int, post_processings: Sequence[push_to_3yourmind.types.PostProcessingConfig] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1209,7 +1285,7 @@ class UserPanelAPI(BaseAPI):
     cad_file: types.CadFileSpecifier,
     product_id: int,
     quantity: int,
-    post_processing_ids: t.Sequence[int] = (),
+    post_processings: t.Sequence[types.PostProcessingConfig] = (),
     preferred_due_date: types.OptionalDate = types.NoValue,
 ) -&gt; types.ResponseDict:
     preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -1227,7 +1303,7 @@ class UserPanelAPI(BaseAPI):
         line_id=line_id,
         quantity=quantity,
         product_id=product_id,
-        post_processing_ids=post_processing_ids,
+        post_processings=post_processings,
         preferred_due_date=preferred_due_date,
     )</code></pre>
 </details>
@@ -1498,7 +1574,7 @@ place order from quote with payment method</p></div>
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_shipping_methods"><code class="name flex">
-<span>def <span class="ident">get_shipping_methods</span></span>(<span>self, *, supplier_id: int, quote_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_address_id: Union[int, float, decimal.Decimal, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Sequence[Dict[str, Any]]</span>
+<span>def <span class="ident">get_shipping_methods</span></span>(<span>self, *, supplier_id: int, quote_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Sequence[Dict[str, Any]]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1510,8 +1586,8 @@ place order from quote with payment method</p></div>
     self,
     *,
     supplier_id: int,
-    quote_id: types.OptionalNumber = types.NoValue,
-    shipping_address_id: types.OptionalNumber = types.NoValue,
+    quote_id: types.OptionalInteger = types.NoValue,
+    shipping_address_id: types.OptionalInteger = types.NoValue,
 ) -&gt; t.Sequence[types.ResponseDict]:
     query = self._get_parameters(
         quoteId=quote_id, shippingAddressId=shipping_address_id
@@ -1524,7 +1600,7 @@ place order from quote with payment method</p></div>
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_catalog_item"><code class="name flex">
-<span>def <span class="ident">create_catalog_item</span></span>(<span>self, basket_line_id: int)</span>
+<span>def <span class="ident">create_catalog_item</span></span>(<span>self, basket_line_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1532,7 +1608,7 @@ place order from quote with payment method</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_catalog_item(self, basket_line_id: int):
+<pre><code class="python">def create_catalog_item(self, basket_line_id: int) -&gt; types.ResponseDict:
     return self._request(
         &#34;POST&#34;,
         &#34;user-panel/catalog/&#34;,
@@ -1541,7 +1617,7 @@ place order from quote with payment method</p></div>
 </details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_catalog_item_attachment"><code class="name flex">
-<span>def <span class="ident">upload_catalog_item_attachment</span></span>(<span>self, catalog_item_id: int, attachment_file: Union[str, IO])</span>
+<span>def <span class="ident">upload_catalog_item_attachment</span></span>(<span>self, catalog_item_id: int, attachment_file: Union[str, IO]) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1549,11 +1625,15 @@ place order from quote with payment method</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def upload_catalog_item_attachment(self, catalog_item_id: int, attachment_file: types.AttachmentFileSpecifier):
+<pre><code class="python">def upload_catalog_item_attachment(
+        self,
+        catalog_item_id: int,
+        attachment_file: types.AttachmentFileSpecifier,
+) -&gt; types.ResponseDict:
     attachment_file_contents = utils.extract_file_content(attachment_file)
     return self._request(
         &#34;POST&#34;,
-        f&#34;user-panel/catalogue/{catalog_item_id}/attachments/&#34;,
+        f&#34;user-panel/catalog/{catalog_item_id}/attachments/&#34;,
         files={&#34;file&#34;: attachment_file_contents},
     )</code></pre>
 </details>
@@ -1589,6 +1669,7 @@ place order from quote with payment method</p></div>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_line">get_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket_line">create_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line">update_basket_line</a></code></li>
+<li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line">add_part_requirements_to_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_materials" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_materials">get_materials</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_products" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_products">get_products</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_cad_file" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.upload_cad_file">upload_cad_file</a></code></li>
