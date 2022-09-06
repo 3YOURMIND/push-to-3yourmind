@@ -1,8 +1,8 @@
 """
 Base classes
 """
-import os
 import typing as t
+import urllib
 
 import requests
 
@@ -26,7 +26,7 @@ class BaseAPI:
                 "Create token" in the user list.
             base_url: application URL, ex. https://app.3yourmind.com
         """
-        self._api_prefix = "api/v2.0"
+        self._api_prefix = "api/v2.0/"
         self._access_token = access_token
         self._base_url = base_url
 
@@ -38,8 +38,8 @@ class BaseAPI:
         :return:
         """
 
-        path = os.path.join(self._api_prefix, sub_path).lstrip("/")
-        return os.path.join(self._base_url, path)
+        path = urllib.parse.urljoin(self._api_prefix, sub_path).lstrip("/")
+        return urllib.parse.urljoin(self._base_url, path)
 
     def _get_headers(self):
         return {"Authorization": f"Token {self._access_token}"}
