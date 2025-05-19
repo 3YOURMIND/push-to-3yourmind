@@ -41,8 +41,8 @@ class CommonAPI(BaseAPI):
     def get_materials(self) -> t.List[types.ResponseDict]:
         return self._request("GET", "materials/")
 
-    def get_forms(self):
-        return self._request("GET", "forms/")
+    # def get_forms(self):
+    #     return self._request("GET", "forms/")
 
     def get_tax_types(self) -> t.List[str]:
         return self._request("GET", "tax-types/")

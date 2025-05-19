@@ -69,7 +69,7 @@ class ImportCatalogClient:
             cad_file=file,
             quantity=1,
             product_id=product_id,
-            post_processings=post_processings,
+            # post_processings=post_processings,
         )
         if part_requirements is not None:
             self.client.user_panel.add_part_requirements_to_basket_line(
@@ -100,7 +100,7 @@ class ImportCatalogClient:
 
 api_client = ImportCatalogClient(
     access_token="",
-    base_url="https://instance.3yourmind.com",
+    base_url="",
 )
         
 
@@ -131,8 +131,8 @@ def import_catalog_items(csv_path: str, mapper: MapperFunction, is_dry_run=True)
                     basket_id=basket["id"],
                     file=item_data.cad_file,
                     product_id=item_data.product_id,
-                    part_requirements=item_data.part_requirements,
-                    post_processings=item_data.post_processings,
+                    # part_requirements=item_data.part_requirements,
+                    # post_processings=item_data.post_processings,
                 )
             except push_to_3yourmind.BasePushTo3YourmindAPIException as e:
                 logger.error(f"One Api call failed: {e}")
@@ -144,6 +144,7 @@ def import_catalog_items(csv_path: str, mapper: MapperFunction, is_dry_run=True)
                 )
                     
                 for attachment in item_data.attachments:
+                    print("attachment:", attachment)
                     api_client.add_attachments_to_catalog_item(
                         catalog_item_id=catalog_item["id"],
                         attachment=attachment,
@@ -162,26 +163,26 @@ if __name__ == "__main__":
     BASE_DIR = pathlib.Path(os.getcwd())
     DATA_DIR = BASE_DIR / 'data'
 
-    function_map = {
-        "aerospace": 4,
-        "automotive": 5,
-    }
+    # function_map = {
+    #     "aerospace": 4,
+    #     "automotive": 5,
+    # }
     
-    def create_form(function: t.Literal["aerospace", "automotive"]):
-        try:
-            function_id = function_map[function]
-        except KeyError:
-            raise MapperException("Unknown function")
+    # def create_form(function: t.Literal["aerospace", "automotive"]):
+    #     try:
+    #         function_id = function_map[function]
+    #     except KeyError:
+    #         raise MapperException("Unknown function")
         
-        return push_to_3yourmind.td.FormData(
-            form_id=1,
-            fields=[
-                push_to_3yourmind.td.FormField(
-                    form_field_id=3,
-                    value=function_id
-                )
-            ]
-        )
+    #     return push_to_3yourmind.td.FormData(
+    #         form_id=1,
+    #         fields=[
+    #             push_to_3yourmind.td.FormField(
+    #                 form_field_id=3,
+    #                 value=function_id
+    #             )
+    #         ]
+    #     )
 
     def mapper_func(data: dict) -> ItemData:
         """
@@ -189,26 +190,26 @@ if __name__ == "__main__":
         come from anywhere) and turns it into data that is understandable
         by the client
         """
-        if post_processing_ids := data["post_processing_ids"]:
-            post_processings = [
-                push_to_3yourmind.td.PostProcessingConfig(
-                    post_processing_id=int(entry),
-                    color_id=None,
-                )
-                for entry in post_processing_ids.split(" ")
-            ]
-        else:
-            post_processings = []
+        # if post_processing_ids := data["post_processing_ids"]:
+        #     post_processings = [
+        #         push_to_3yourmind.td.PostProcessingConfig(
+        #             post_processing_id=int(entry),
+        #             color_id=None,
+        #         )
+        #         for entry in post_processing_ids.split(" ")
+        #     ]
+        # else:
+        post_processings = []
 
         # create part requirements from data
-        part_requirements = create_form(data["function"])
+        # part_requirements = create_form(data["function"])
 
         cad_file_path = str(DATA_DIR / data["stl_file"])
-        attachments = [str(DATA_DIR / file_name) for file_name in data["attachments"].split(" ")]
+        attachments = [str(DATA_DIR / file_name) for file_name in data["attachments"].split(" ") if file_name]
         return ItemData(
             cad_file=cad_file_path,
-            product_id=data["product_id"],
-            part_requirements=part_requirements,
+            product_id=data["productId"],
+            part_requirements=None,
             post_processings=post_processings,
             attachments=attachments,
         )

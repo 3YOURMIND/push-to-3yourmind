@@ -76,6 +76,7 @@ class BaseAPI:
             method=method,
             url=url,
             headers=self._get_headers(),
+            verify=False,
             **kwargs,
         )
 
