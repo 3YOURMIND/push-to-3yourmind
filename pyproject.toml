@@ -5,12 +5,12 @@ description = "Python library to access 3YOURMIND's API"
 authors = ["Serhii Zavadskyi <sz@3yourmind.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.12"
 
-requests = "^2.26.0"
+requests = "^2.32.3"
 
-[tool.poetry.dev-dependencies]
-pdoc3 = "^0.10.0"
+[tool.poetry.group.dev.dependencies]
+pdoc3 = "^0.11.6"
 
 
 [build-system]

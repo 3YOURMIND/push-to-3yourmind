@@ -2,19 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
 <title>push_to_3yourmind.api.user_panel API documentation</title>
 <meta name="description" content="Groups API functionality from the User Panel, such as creating/updating baskets,
-placing orders, making requests for quotes, ordering quotes etc." />
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+placing orders, making requests for quotes, ordering quotes etc.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
 </head>
 <body>
 <main>
@@ -25,433 +39,6 @@ placing orders, making requests for quotes, ordering quotes etc." />
 <section id="section-intro">
 <p>Groups API functionality from the User Panel, such as creating/updating baskets,
 placing orders, making requests for quotes, ordering quotes etc.</p>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">&#34;&#34;&#34;
-Groups API functionality from the User Panel, such as creating/updating baskets,
-placing orders, making requests for quotes, ordering quotes etc.
-&#34;&#34;&#34;
-
-import datetime
-import decimal
-import typing as t
-import time
-
-from push_to_3yourmind import types, exceptions, utils
-from push_to_3yourmind.logger import logger
-from push_to_3yourmind.api.base import BaseAPI
-from push_to_3yourmind.types import NoValue
-
-
-__all__ = [&#34;UserPanelAPI&#34;]
-
-
-class UserPanelAPI(BaseAPI):
-    &#34;&#34;&#34;
-    Accessible via namespace `user_panel`, for example:
-    &gt;&gt;&gt; response = client.user_panel.get_baskets()
-
-    Attributes:
-        CHECK_FILE_STATUS_MAX_ATTEMPTS: How many times to check for the uploaded CAD file analysis status
-        CHECK_FILE_STATUS_DELAY: Delay between status check requests, in seconds
-    &#34;&#34;&#34;
-
-    CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
-    CHECK_FILE_STATUS_DELAY = 0.5  # seconds
-
-    def get_baskets(
-        self,
-        *,
-        page: types.OptionalInteger = NoValue,
-        page_size: types.OptionalInteger = NoValue,
-    ) -&gt; t.List[types.ResponseDict]:
-        &#34;&#34;&#34;
-        Get all baskets of the current user. Returns paginated list.
-
-        Args:
-            page: int, optional
-            page_size: int, optional
-        Returns:
-            dictionary with the following keys:
-
-            - count: total number of baskets, int
-            - currentPage: page number, int
-            - totalPages: total number of pages, int
-            - pageSize: baskets per page, int
-            - results: list of basket details
-        &#34;&#34;&#34;
-
-        query = self._get_parameters(page=page, pageSize=page_size)
-        return self._request(&#34;GET&#34;, &#34;user-panel/baskets/&#34;, params=query)
-
-    def get_basket(self, *, basket_id: int) -&gt; types.ResponseDict:
-        &#34;&#34;&#34;
-        Args:
-            basket_id: int
-
-        Returns:
-            Basket details dict
-        &#34;&#34;&#34;
-        return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
-
-    def get_basket_price(
-        self,
-        *,
-        basket_id: int,
-        currency: str,
-        shipping_address_id: types.OptionalInteger = types.NoValue,
-        billing_address_id: types.OptionalInteger = types.NoValue,
-        shipping_method_id: types.OptionalInteger = types.NoValue,
-        voucher_code: types.OptionalString = types.NoValue,
-    ) -&gt; types.ResponseDict:
-        &#34;&#34;&#34;
-        Calculate basket&#39;s price, given additional optional shipping, billing information
-
-        Args:
-            basket_id: int
-            currency: str
-            shipping_address_id: int, optional
-            billing_address_id: int, optional
-            shipping_method_id: int, optional
-            voucher_code: str, optional
-
-        Returns:
-            Dict containing basket prices
-        &#34;&#34;&#34;
-        query = self._get_parameters(
-            currency=currency,
-            shippingAddressId=shipping_address_id,
-            shippingMethodId=shipping_method_id,
-            billingAddressId=billing_address_id,
-            voucherCode=voucher_code,
-        )
-        return self._request(
-            &#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/price/&#34;, params=query
-        )
-
-    def create_basket(self) -&gt; types.ResponseDict:
-        return self._request(&#34;POST&#34;, &#34;user-panel/baskets/&#34;)
-
-    def delete_basket(self, basket_id: int) -&gt; str:
-        return self._request(&#34;DELETE&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)
-
-    def update_basket(
-        self, *, basket_id: int, title: t.Union[str, types.NoValueType] = NoValue
-    ) -&gt; types.ResponseDict:
-        json = self._get_parameters(title=title)
-        return self._request(&#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;, json=json)
-
-    def get_basket_lines(self, basket_id: int) -&gt; t.List[types.ResponseDict]:
-        return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/lines/&#34;)
-
-    def get_basket_line(self, *, basket_id: int, line_id) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;)
-
-    def create_basket_line(self, basket_id: int) -&gt; types.ResponseDict:
-        return self._request(&#34;POST&#34;, f&#34;user-panel/baskets/{basket_id}/lines/&#34;)
-
-    def update_basket_line(
-        self,
-        *,
-        basket_id: int,
-        line_id: int,
-        quantity: types.OptionalInteger = types.NoValue,
-        product_id: types.OptionalInteger = types.NoValue,
-        post_processings: t.Sequence[types.PostProcessingConfig] = (),
-        preferred_due_date: types.OptionalDate = types.NoValue,
-    ) -&gt; types.ResponseDict:
-
-        if post_processings:
-            post_processings = [
-                {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
-                for pp in post_processings
-            ]
-        if isinstance(preferred_due_date, datetime.date):
-            preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
-        json = self._get_parameters(
-            quantity=quantity,
-            offerId=product_id,
-            postProcessings=post_processings,
-            preferredDueDate=preferred_due_date,
-        )
-        return self._request(
-            &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
-        )
-
-    def add_part_requirements_to_basket_line(
-            self,
-            *,
-            line_id: int,
-            form_data: types.FormData,
-    ):
-        json = {
-            &#34;formId&#34;: form_data.form_id,
-            &#34;fields&#34;: [
-                {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
-                for field in form_data.fields
-            ]
-        }
-        return self._request(
-            &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
-            json=json,
-        )
-
-    def get_materials(
-        self, *, basket_id: int, line_id: int
-    ) -&gt; t.List[types.ResponseDict]:
-        preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
-        country = preferences[&#34;country&#34;]
-        query = {&#34;country&#34;: country}
-
-        return self._request(
-            &#34;GET&#34;,
-            f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/materials/&#34;,
-            params=query,
-        )
-
-    def get_products(
-        self, *, basket_id: int, line_id: int, material_id: int
-    ) -&gt; t.List[types.ResponseDict]:
-        preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
-        country = preferences[&#34;country&#34;]
-        query = {&#34;country&#34;: country}
-
-        return self._request(
-            &#34;GET&#34;,
-            f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;
-            f&#34;materials/{material_id}/offers/&#34;,
-            params=query,
-        )
-
-    def upload_cad_file(
-        self,
-        *,
-        basket_id: int,
-        unit: types.Unit,
-        cad_file: types.CadFileSpecifier,
-        line_id: int,
-    ) -&gt; types.ResponseDict:
-
-        data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
-        cad_file_contents = utils.extract_file_content(cad_file)
-
-        return self._request(
-            &#34;POST&#34;, f&#34;/upload/&#34;, data=data, files={&#34;file&#34;: cad_file_contents}
-        )
-
-    def create_line_with_cad_file_and_product(
-        self,
-        *,
-        basket_id: int,
-        cad_file: types.CadFileSpecifier,
-        product_id: int,
-        quantity: int,
-        post_processings: t.Sequence[types.PostProcessingConfig] = (),
-        preferred_due_date: types.OptionalDate = types.NoValue,
-    ) -&gt; types.ResponseDict:
-        preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
-        unit = preferences[&#34;unit&#34;]
-
-        line_response = self.create_basket_line(basket_id=basket_id)
-        line_id = line_response[&#34;id&#34;]
-        self.upload_cad_file(
-            basket_id=basket_id, line_id=line_id, unit=unit, cad_file=cad_file
-        )
-        self.check_uploaded_file_status(basket_id=basket_id, line_id=line_id)
-
-        return self.update_basket_line(
-            basket_id=basket_id,
-            line_id=line_id,
-            quantity=quantity,
-            product_id=product_id,
-            post_processings=post_processings,
-            preferred_due_date=preferred_due_date,
-        )
-
-    def check_uploaded_file_status(
-        self,
-        *,
-        basket_id: int,
-        line_id: int,
-    ) -&gt; None:
-        max_attempts = self.CHECK_FILE_STATUS_MAX_ATTEMPTS
-        for attempt_number in range(max_attempts):
-            logger.debug(f&#34;Checking file status {attempt_number}/{max_attempts}&#34;)
-            response = self._request(
-                &#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/file-status/&#34;
-            )
-            response_content = response.get(&#34;status&#34;)
-            if response_content == &#34;analysing&#34;:
-                time.sleep(self.CHECK_FILE_STATUS_DELAY)
-                continue
-            elif response_content == &#34;finished&#34;:
-                logger.debug(&#34;File analysis done&#34;)
-                return
-            else:
-                raise exceptions.FileAnalysisError()
-
-    def create_request_for_quote(
-        self, *, basket_id: int, supplier_id: int, message: str
-    ) -&gt; types.ResponseDict:
-        json = {
-            &#34;basketId&#34;: basket_id,
-            &#34;partnerId&#34;: supplier_id,
-            &#34;message&#34;: message,
-        }
-        return self._request(&#34;POST&#34;, f&#34;user-panel/requests-for-quote/&#34;, json=json)
-
-    def get_quotes(self) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, &#34;user-panel/quotes/&#34;)
-
-    def get_orders(self) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, &#34;user-panel/orders/&#34;)
-
-    def get_order(self, *, order_id: int) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, f&#34;user-panel/orders/{order_id}/&#34;)
-
-    def get_order_line(self, *, order_id: int, line_id: int) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, f&#34;user-panel/orders/{order_id}/{line_id}/&#34;)
-
-    def get_quote(self, *, quote_id: int) -&gt; types.ResponseDict:
-        return self._request(&#34;GET&#34;, f&#34;user-panel/quotes/{quote_id}/&#34;)
-
-    def finalize_quote(
-        self,
-        *,
-        quote_id: int,
-        billing_address_id: t.Optional[int] = None,
-        shipping_address_id: t.Optional[int] = None,
-        shipping_method_id: t.Optional[int] = None,
-        pickup_location_id: t.Optional[int] = None,
-        delivery_instructions: t.Optional[str] = None,
-    ) -&gt; types.ResponseDict:
-        json = self._get_parameters(
-            billingAddressId=billing_address_id,
-            shippingAddressId=shipping_address_id,
-            shippingMethodId=shipping_method_id,
-            pickupLocationId=pickup_location_id,
-            deliveryInstructions=delivery_instructions,
-        )
-        return self._request(
-            &#34;PUT&#34;,
-            f&#34;user-panel/quotes/{quote_id}/finalize/&#34;,
-            json=json,
-        )
-
-    def place_order_from_quote(
-        self,
-        *,
-        quote_id: int,
-        payment_method_id: int,
-        authorized_amount: decimal.Decimal,
-        reference: t.Optional[str] = None,
-        currency: t.Optional[str] = None,
-        voucher_code: str = &#34;&#34;,
-    ) -&gt; types.ResponseDict:
-        json = {
-            &#34;additionalInformation&#34;: {&#34;reference&#34;: reference},
-            &#34;payment&#34;: {
-                &#34;currency&#34;: currency,
-                &#34;details&#34;: {},
-                &#34;methodId&#34;: payment_method_id,
-                &#34;authorizedAmount&#34;: authorized_amount,
-            },
-            &#34;quoteId&#34;: quote_id,
-            &#34;voucherCode&#34;: voucher_code,
-        }
-        return self._request(&#34;POST&#34;, f&#34;user-panel/orders/&#34;, json=json)
-
-    def quick_order_quote(self, *, quote_id: int) -&gt; types.ResponseDict:
-        &#34;&#34;&#34;
-        get quote details
-        get supplier id
-
-        If quote is not finalized:
-           get my addresses, pick one
-           get supplier shipping methods, pick one
-           finalize quote with one address as shipping and billing,
-            one payment method and one shipping method
-
-        get payment methods, pick one
-        place order from quote with payment method
-        &#34;&#34;&#34;
-        quote_details = self.get_quote(quote_id=quote_id)
-        supplier_id = quote_details[&#34;partner&#34;][&#34;id&#34;]
-        quote_is_finalized = quote_details[&#34;status&#34;] == &#34;finalized&#34;
-
-        if not quote_is_finalized:
-            addresses = self._request(&#34;GET&#34;, &#34;my-profile/addresses/&#34;)
-            address = addresses[0]
-            address_id = address[&#34;id&#34;]
-
-            shipping_methods = self.get_shipping_methods(
-                supplier_id=supplier_id,
-                quote_id=quote_id,
-                shipping_address_id=address_id,
-            )
-            shipping_method = shipping_methods[0]
-            shipping_method_id = shipping_method[&#34;id&#34;]
-
-            self.finalize_quote(
-                quote_id=quote_id,
-                billing_address_id=address_id,
-                shipping_address_id=address_id,
-                shipping_method_id=shipping_method_id,
-            )
-        payment_methods = self.get_payment_methods(supplier_id=supplier_id)
-        payment_method = payment_methods[0]
-        payment_method_id = payment_method[&#34;id&#34;]
-        return self.place_order_from_quote(
-            quote_id=quote_id,
-            payment_method_id=payment_method_id,
-            currency=quote_details[&#34;currency&#34;],
-            authorized_amount=quote_details[&#34;totalPrice&#34;][&#34;inclusiveTax&#34;],
-        )
-
-    def get_payment_methods(
-        self, *, supplier_id: int
-    ) -&gt; t.Sequence[types.ResponseDict]:
-        return self._request(
-            &#34;GET&#34;, f&#34;user-panel/services/{supplier_id}/payment-methods/&#34;
-        )
-
-    def get_shipping_methods(
-        self,
-        *,
-        supplier_id: int,
-        quote_id: types.OptionalInteger = types.NoValue,
-        shipping_address_id: types.OptionalInteger = types.NoValue,
-    ) -&gt; t.Sequence[types.ResponseDict]:
-        query = self._get_parameters(
-            quoteId=quote_id, shippingAddressId=shipping_address_id
-        )
-        return self._request(
-            &#34;GET&#34;,
-            f&#34;user-panel/services/{supplier_id}/shipping-methods/&#34;,
-            params=query,
-        )
-
-    def create_catalog_item(self, basket_line_id: int) -&gt; types.ResponseDict:
-        return self._request(
-            &#34;POST&#34;,
-            &#34;user-panel/catalog/&#34;,
-            json={&#34;lineId&#34;: basket_line_id},
-        )
-
-    def upload_catalog_item_attachment(
-            self,
-            catalog_item_id: int,
-            attachment_file: types.AttachmentFileSpecifier,
-    ) -&gt; types.ResponseDict:
-        attachment_file_contents = utils.extract_file_content(attachment_file)
-        return self._request(
-            &#34;POST&#34;,
-            f&#34;user-panel/catalog/{catalog_item_id}/attachments/&#34;,
-            files={&#34;file&#34;: attachment_file_contents},
-        )</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -467,24 +54,6 @@ class UserPanelAPI(BaseAPI):
 <span>(</span><span>access_token: str, base_url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Accessible via namespace <code>user_panel</code>, for example:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; response = client.user_panel.get_baskets()
-</code></pre>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>CHECK_FILE_STATUS_MAX_ATTEMPTS</code></strong></dt>
-<dd>How many times to check for the uploaded CAD file analysis status</dd>
-<dt><strong><code>CHECK_FILE_STATUS_DELAY</code></strong></dt>
-<dd>Delay between status check requests, in seconds</dd>
-</dl>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>access_token</code></strong></dt>
-<dd>to create a token, open <code>/admin/auth/user/</code>, and click
-"Create token" in the user list.</dd>
-<dt><strong><code>base_url</code></strong></dt>
-<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
-</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -520,8 +89,8 @@ class UserPanelAPI(BaseAPI):
             - count: total number of baskets, int
             - currentPage: page number, int
             - totalPages: total number of pages, int
-            - pageSize: baskets per page, int
-            - results: list of basket details
+            - pageSize: users per page, int
+            - results: list of user details
         &#34;&#34;&#34;
 
         query = self._get_parameters(page=page, pageSize=page_size)
@@ -600,44 +169,44 @@ class UserPanelAPI(BaseAPI):
         line_id: int,
         quantity: types.OptionalInteger = types.NoValue,
         product_id: types.OptionalInteger = types.NoValue,
-        post_processings: t.Sequence[types.PostProcessingConfig] = (),
+        # post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
 
-        if post_processings:
-            post_processings = [
-                {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
-                for pp in post_processings
-            ]
+        # if post_processings:
+        #     post_processings = [
+        #         {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
+        #         for pp in post_processings
+        #     ]
         if isinstance(preferred_due_date, datetime.date):
             preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
         json = self._get_parameters(
             quantity=quantity,
             offerId=product_id,
-            postProcessings=post_processings,
+            # postProcessings=post_processings,
             preferredDueDate=preferred_due_date,
         )
         return self._request(
             &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
         )
 
-    def add_part_requirements_to_basket_line(
-            self,
-            *,
-            line_id: int,
-            form_data: types.FormData,
-    ):
-        json = {
-            &#34;formId&#34;: form_data.form_id,
-            &#34;fields&#34;: [
-                {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
-                for field in form_data.fields
-            ]
-        }
-        return self._request(
-            &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
-            json=json,
-        )
+    # def add_part_requirements_to_basket_line(
+    #         self,
+    #         *,
+    #         line_id: int,
+    #         form_data: types.FormData,
+    # ):
+    #     json = {
+    #         &#34;formId&#34;: form_data.form_id,
+    #         &#34;fields&#34;: [
+    #             {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
+    #             for field in form_data.fields
+    #         ]
+    #     }
+    #     return self._request(
+    #         &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
+    #         json=json,
+    #     )
 
     def get_materials(
         self, *, basket_id: int, line_id: int
@@ -689,7 +258,7 @@ class UserPanelAPI(BaseAPI):
         cad_file: types.CadFileSpecifier,
         product_id: int,
         quantity: int,
-        post_processings: t.Sequence[types.PostProcessingConfig] = (),
+        # post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -&gt; types.ResponseDict:
         preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -707,7 +276,7 @@ class UserPanelAPI(BaseAPI):
             line_id=line_id,
             quantity=quantity,
             product_id=product_id,
-            post_processings=post_processings,
+            # post_processings=post_processings,
             preferred_due_date=preferred_due_date,
         )
 
@@ -893,6 +462,24 @@ class UserPanelAPI(BaseAPI):
             files={&#34;file&#34;: attachment_file_contents},
         )</code></pre>
 </details>
+<div class="desc"><p>Accessible via namespace <code>user_panel</code>, for example:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; response = client.user_panel.get_baskets()
+</code></pre>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>CHECK_FILE_STATUS_MAX_ATTEMPTS</code></strong></dt>
+<dd>How many times to check for the uploaded CAD file analysis status</dd>
+<dt><strong><code>CHECK_FILE_STATUS_DELAY</code></strong></dt>
+<dd>Delay between status check requests, in seconds</dd>
+</dl>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>access_token</code></strong></dt>
+<dd>to create a token, open <code>/admin/auth/user/</code>, and click
+"Create token" in the user list.</dd>
+<dt><strong><code>base_url</code></strong></dt>
+<dd>application URL, ex. <a href="https://app.3yourmind.com">https://app.3yourmind.com</a></dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="push_to_3yourmind.api.base.BaseAPI" href="base.html#push_to_3yourmind.api.base.BaseAPI">BaseAPI</a></li>
@@ -901,36 +488,19 @@ class UserPanelAPI(BaseAPI):
 <dl>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_MAX_ATTEMPTS"><code class="name">var <span class="ident">CHECK_FILE_STATUS_MAX_ATTEMPTS</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.CHECK_FILE_STATUS_DELAY"><code class="name">var <span class="ident">CHECK_FILE_STATUS_DELAY</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The type of the None singleton.</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_baskets"><code class="name flex">
-<span>def <span class="ident">get_baskets</span></span>(<span>self, *, page: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, page_size: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> List[Dict[str, Any]]</span>
+<span>def <span class="ident">get_baskets</span></span>(<span>self,<br>*,<br>page: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>page_size: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get all baskets of the current user. Returns paginated list.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>page</code></strong></dt>
-<dd>int, optional</dd>
-<dt><strong><code>page_size</code></strong></dt>
-<dd>int, optional</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>dictionary with the following keys:</p>
-<ul>
-<li>count: total number of baskets, int</li>
-<li>currentPage: page number, int</li>
-<li>totalPages: total number of pages, int</li>
-<li>pageSize: baskets per page, int</li>
-<li>results: list of basket details</li>
-</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -953,25 +523,35 @@ class UserPanelAPI(BaseAPI):
         - count: total number of baskets, int
         - currentPage: page number, int
         - totalPages: total number of pages, int
-        - pageSize: baskets per page, int
-        - results: list of basket details
+        - pageSize: users per page, int
+        - results: list of user details
     &#34;&#34;&#34;
 
     query = self._get_parameters(page=page, pageSize=page_size)
     return self._request(&#34;GET&#34;, &#34;user-panel/baskets/&#34;, params=query)</code></pre>
 </details>
+<div class="desc"><p>Get all baskets of the current user. Returns paginated list.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>page</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>page_size</code></strong></dt>
+<dd>int, optional</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>dictionary with the following keys:</p>
+<ul>
+<li>count: total number of baskets, int</li>
+<li>currentPage: page number, int</li>
+<li>totalPages: total number of pages, int</li>
+<li>pageSize: users per page, int</li>
+<li>results: list of user details</li>
+</ul></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket"><code class="name flex">
 <span>def <span class="ident">get_basket</span></span>(<span>self, *, basket_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>basket_id</code></strong></dt>
-<dd>int</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<p>Basket details dict</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -986,29 +566,18 @@ class UserPanelAPI(BaseAPI):
     &#34;&#34;&#34;
     return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)</code></pre>
 </details>
-</dd>
-<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_price"><code class="name flex">
-<span>def <span class="ident">get_basket_price</span></span>(<span>self, *, basket_id: int, currency: str, shipping_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, billing_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_method_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, voucher_code: Union[str, bytes, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Calculate basket's price, given additional optional shipping, billing information</p>
-<h2 id="args">Args</h2>
+<div class="desc"><h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>basket_id</code></strong></dt>
 <dd>int</dd>
-<dt><strong><code>currency</code></strong></dt>
-<dd>str</dd>
-<dt><strong><code>shipping_address_id</code></strong></dt>
-<dd>int, optional</dd>
-<dt><strong><code>billing_address_id</code></strong></dt>
-<dd>int, optional</dd>
-<dt><strong><code>shipping_method_id</code></strong></dt>
-<dd>int, optional</dd>
-<dt><strong><code>voucher_code</code></strong></dt>
-<dd>str, optional</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>Dict containing basket prices</p></div>
+<p>Basket details dict</p></div>
+</dd>
+<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_price"><code class="name flex">
+<span>def <span class="ident">get_basket_price</span></span>(<span>self,<br>*,<br>basket_id: int,<br>currency: str,<br>shipping_address_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>billing_address_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>shipping_method_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>voucher_code: str | bytes | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1048,12 +617,29 @@ class UserPanelAPI(BaseAPI):
         &#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/price/&#34;, params=query
     )</code></pre>
 </details>
+<div class="desc"><p>Calculate basket's price, given additional optional shipping, billing information</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>basket_id</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>currency</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>shipping_address_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>billing_address_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>shipping_method_id</code></strong></dt>
+<dd>int, optional</dd>
+<dt><strong><code>voucher_code</code></strong></dt>
+<dd>str, optional</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Dict containing basket prices</p></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket"><code class="name flex">
 <span>def <span class="ident">create_basket</span></span>(<span>self) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1061,12 +647,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def create_basket(self) -&gt; types.ResponseDict:
     return self._request(&#34;POST&#34;, &#34;user-panel/baskets/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.delete_basket"><code class="name flex">
 <span>def <span class="ident">delete_basket</span></span>(<span>self, basket_id: int) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1074,12 +660,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def delete_basket(self, basket_id: int) -&gt; str:
     return self._request(&#34;DELETE&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket"><code class="name flex">
-<span>def <span class="ident">update_basket</span></span>(<span>self, *, basket_id: int, title: Union[str, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">update_basket</span></span>(<span>self,<br>*,<br>basket_id: int,<br>title: str | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1090,12 +676,12 @@ class UserPanelAPI(BaseAPI):
     json = self._get_parameters(title=title)
     return self._request(&#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/&#34;, json=json)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_lines"><code class="name flex">
 <span>def <span class="ident">get_basket_lines</span></span>(<span>self, basket_id: int) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1103,12 +689,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_basket_lines(self, basket_id: int) -&gt; t.List[types.ResponseDict]:
     return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/lines/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_line"><code class="name flex">
 <span>def <span class="ident">get_basket_line</span></span>(<span>self, *, basket_id: int, line_id) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1116,12 +702,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_basket_line(self, *, basket_id: int, line_id) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket_line"><code class="name flex">
 <span>def <span class="ident">create_basket_line</span></span>(<span>self, basket_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1129,12 +715,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def create_basket_line(self, basket_id: int) -&gt; types.ResponseDict:
     return self._request(&#34;POST&#34;, f&#34;user-panel/baskets/{basket_id}/lines/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line"><code class="name flex">
-<span>def <span class="ident">update_basket_line</span></span>(<span>self, *, basket_id: int, line_id: int, quantity: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, product_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, post_processings: Sequence[push_to_3yourmind.types.PostProcessingConfig] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">update_basket_line</span></span>(<span>self,<br>*,<br>basket_id: int,<br>line_id: int,<br>quantity: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>product_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>preferred_due_date: datetime.date | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1146,61 +732,33 @@ class UserPanelAPI(BaseAPI):
     line_id: int,
     quantity: types.OptionalInteger = types.NoValue,
     product_id: types.OptionalInteger = types.NoValue,
-    post_processings: t.Sequence[types.PostProcessingConfig] = (),
+    # post_processings: t.Sequence[types.PostProcessingConfig] = (),
     preferred_due_date: types.OptionalDate = types.NoValue,
 ) -&gt; types.ResponseDict:
 
-    if post_processings:
-        post_processings = [
-            {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
-            for pp in post_processings
-        ]
+    # if post_processings:
+    #     post_processings = [
+    #         {&#34;postProcessingId&#34;: pp.post_processing_id, &#34;colorId&#34;: pp.color_id}
+    #         for pp in post_processings
+    #     ]
     if isinstance(preferred_due_date, datetime.date):
         preferred_due_date = preferred_due_date.strftime(&#34;%Y-%m-%d&#34;)
     json = self._get_parameters(
         quantity=quantity,
         offerId=product_id,
-        postProcessings=post_processings,
+        # postProcessings=post_processings,
         preferredDueDate=preferred_due_date,
     )
     return self._request(
         &#34;PATCH&#34;, f&#34;user-panel/baskets/{basket_id}/lines/{line_id}/&#34;, json=json
     )</code></pre>
 </details>
-</dd>
-<dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line"><code class="name flex">
-<span>def <span class="ident">add_part_requirements_to_basket_line</span></span>(<span>self, *, line_id: int, form_data: push_to_3yourmind.types.FormData)</span>
-</code></dt>
-<dd>
 <div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def add_part_requirements_to_basket_line(
-        self,
-        *,
-        line_id: int,
-        form_data: types.FormData,
-):
-    json = {
-        &#34;formId&#34;: form_data.form_id,
-        &#34;fields&#34;: [
-            {&#34;formFieldId&#34;: field.form_field_id, &#34;value&#34;: field.value} 
-            for field in form_data.fields
-        ]
-    }
-    return self._request(
-        &#34;POST&#34;, f&#34;user-panel/forms/basket-line/{line_id}/&#34;,
-        json=json,
-    )</code></pre>
-</details>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_materials"><code class="name flex">
 <span>def <span class="ident">get_materials</span></span>(<span>self, *, basket_id: int, line_id: int) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1218,12 +776,12 @@ class UserPanelAPI(BaseAPI):
         params=query,
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_products"><code class="name flex">
 <span>def <span class="ident">get_products</span></span>(<span>self, *, basket_id: int, line_id: int, material_id: int) ‑> List[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1242,12 +800,12 @@ class UserPanelAPI(BaseAPI):
         params=query,
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_cad_file"><code class="name flex">
-<span>def <span class="ident">upload_cad_file</span></span>(<span>self, *, basket_id: int, unit: Literal['mm', 'inch'], cad_file: Union[str, IO], line_id: int) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">upload_cad_file</span></span>(<span>self,<br>*,<br>basket_id: int,<br>unit: Literal['mm', 'inch'],<br>cad_file: str | <class 'IO'>,<br>line_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1268,12 +826,12 @@ class UserPanelAPI(BaseAPI):
         &#34;POST&#34;, f&#34;/upload/&#34;, data=data, files={&#34;file&#34;: cad_file_contents}
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_line_with_cad_file_and_product"><code class="name flex">
-<span>def <span class="ident">create_line_with_cad_file_and_product</span></span>(<span>self, *, basket_id: int, cad_file: Union[str, IO], product_id: int, quantity: int, post_processings: Sequence[push_to_3yourmind.types.PostProcessingConfig] = (), preferred_due_date: Union[datetime.date, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">create_line_with_cad_file_and_product</span></span>(<span>self,<br>*,<br>basket_id: int,<br>cad_file: str | <class 'IO'>,<br>product_id: int,<br>quantity: int,<br>preferred_due_date: datetime.date | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1285,7 +843,7 @@ class UserPanelAPI(BaseAPI):
     cad_file: types.CadFileSpecifier,
     product_id: int,
     quantity: int,
-    post_processings: t.Sequence[types.PostProcessingConfig] = (),
+    # post_processings: t.Sequence[types.PostProcessingConfig] = (),
     preferred_due_date: types.OptionalDate = types.NoValue,
 ) -&gt; types.ResponseDict:
     preferences = self._request(&#34;GET&#34;, &#34;my-profile/preferences/&#34;)
@@ -1303,16 +861,16 @@ class UserPanelAPI(BaseAPI):
         line_id=line_id,
         quantity=quantity,
         product_id=product_id,
-        post_processings=post_processings,
+        # post_processings=post_processings,
         preferred_due_date=preferred_due_date,
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.check_uploaded_file_status"><code class="name flex">
 <span>def <span class="ident">check_uploaded_file_status</span></span>(<span>self, *, basket_id: int, line_id: int) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1339,12 +897,12 @@ class UserPanelAPI(BaseAPI):
         else:
             raise exceptions.FileAnalysisError()</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_request_for_quote"><code class="name flex">
 <span>def <span class="ident">create_request_for_quote</span></span>(<span>self, *, basket_id: int, supplier_id: int, message: str) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1359,12 +917,12 @@ class UserPanelAPI(BaseAPI):
     }
     return self._request(&#34;POST&#34;, f&#34;user-panel/requests-for-quote/&#34;, json=json)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_quotes"><code class="name flex">
 <span>def <span class="ident">get_quotes</span></span>(<span>self) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1372,12 +930,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_quotes(self) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, &#34;user-panel/quotes/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_orders"><code class="name flex">
 <span>def <span class="ident">get_orders</span></span>(<span>self) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1385,12 +943,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_orders(self) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, &#34;user-panel/orders/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_order"><code class="name flex">
 <span>def <span class="ident">get_order</span></span>(<span>self, *, order_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1398,12 +956,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_order(self, *, order_id: int) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, f&#34;user-panel/orders/{order_id}/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_order_line"><code class="name flex">
 <span>def <span class="ident">get_order_line</span></span>(<span>self, *, order_id: int, line_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1411,12 +969,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_order_line(self, *, order_id: int, line_id: int) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, f&#34;user-panel/orders/{order_id}/{line_id}/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_quote"><code class="name flex">
 <span>def <span class="ident">get_quote</span></span>(<span>self, *, quote_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1424,12 +982,12 @@ class UserPanelAPI(BaseAPI):
 <pre><code class="python">def get_quote(self, *, quote_id: int) -&gt; types.ResponseDict:
     return self._request(&#34;GET&#34;, f&#34;user-panel/quotes/{quote_id}/&#34;)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.finalize_quote"><code class="name flex">
-<span>def <span class="ident">finalize_quote</span></span>(<span>self, *, quote_id: int, billing_address_id: Optional[int] = None, shipping_address_id: Optional[int] = None, shipping_method_id: Optional[int] = None, pickup_location_id: Optional[int] = None, delivery_instructions: Optional[str] = None) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">finalize_quote</span></span>(<span>self,<br>*,<br>quote_id: int,<br>billing_address_id: int | None = None,<br>shipping_address_id: int | None = None,<br>shipping_method_id: int | None = None,<br>pickup_location_id: int | None = None,<br>delivery_instructions: str | None = None) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1457,12 +1015,12 @@ class UserPanelAPI(BaseAPI):
         json=json,
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.place_order_from_quote"><code class="name flex">
-<span>def <span class="ident">place_order_from_quote</span></span>(<span>self, *, quote_id: int, payment_method_id: int, authorized_amount: decimal.Decimal, reference: Optional[str] = None, currency: Optional[str] = None, voucher_code: str = '') ‑> Dict[str, Any]</span>
+<span>def <span class="ident">place_order_from_quote</span></span>(<span>self,<br>*,<br>quote_id: int,<br>payment_method_id: int,<br>authorized_amount: decimal.Decimal,<br>reference: str | None = None,<br>currency: str | None = None,<br>voucher_code: str = '') ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1490,20 +1048,12 @@ class UserPanelAPI(BaseAPI):
     }
     return self._request(&#34;POST&#34;, f&#34;user-panel/orders/&#34;, json=json)</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.quick_order_quote"><code class="name flex">
 <span>def <span class="ident">quick_order_quote</span></span>(<span>self, *, quote_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>get quote details
-get supplier id</p>
-<p>If quote is not finalized:
-get my addresses, pick one
-get supplier shipping methods, pick one
-finalize quote with one address as shipping and billing,
-one payment method and one shipping method</p>
-<p>get payment methods, pick one
-place order from quote with payment method</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1555,12 +1105,20 @@ place order from quote with payment method</p></div>
         authorized_amount=quote_details[&#34;totalPrice&#34;][&#34;inclusiveTax&#34;],
     )</code></pre>
 </details>
+<div class="desc"><p>get quote details
+get supplier id</p>
+<p>If quote is not finalized:
+get my addresses, pick one
+get supplier shipping methods, pick one
+finalize quote with one address as shipping and billing,
+one payment method and one shipping method</p>
+<p>get payment methods, pick one
+place order from quote with payment method</p></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_payment_methods"><code class="name flex">
 <span>def <span class="ident">get_payment_methods</span></span>(<span>self, *, supplier_id: int) ‑> Sequence[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1572,12 +1130,12 @@ place order from quote with payment method</p></div>
         &#34;GET&#34;, f&#34;user-panel/services/{supplier_id}/payment-methods/&#34;
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.get_shipping_methods"><code class="name flex">
-<span>def <span class="ident">get_shipping_methods</span></span>(<span>self, *, supplier_id: int, quote_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue, shipping_address_id: Union[int, Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>]] = push_to_3yourmind.types.NoValue) ‑> Sequence[Dict[str, Any]]</span>
+<span>def <span class="ident">get_shipping_methods</span></span>(<span>self,<br>*,<br>supplier_id: int,<br>quote_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue,<br>shipping_address_id: int | Type[<a title="push_to_3yourmind.types.NoValue" href="../types.html#push_to_3yourmind.types.NoValue">NoValue</a>] = push_to_3yourmind.types.NoValue) ‑> Sequence[Dict[str, Any]]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1598,12 +1156,12 @@ place order from quote with payment method</p></div>
         params=query,
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.create_catalog_item"><code class="name flex">
 <span>def <span class="ident">create_catalog_item</span></span>(<span>self, basket_line_id: int) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1615,12 +1173,12 @@ place order from quote with payment method</p></div>
         json={&#34;lineId&#34;: basket_line_id},
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 <dt id="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_catalog_item_attachment"><code class="name flex">
-<span>def <span class="ident">upload_catalog_item_attachment</span></span>(<span>self, catalog_item_id: int, attachment_file: Union[str, IO]) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">upload_catalog_item_attachment</span></span>(<span>self, catalog_item_id: int, attachment_file: str | <class 'IO'>) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1637,6 +1195,7 @@ place order from quote with payment method</p></div>
         files={&#34;file&#34;: attachment_file_contents},
     )</code></pre>
 </details>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -1644,7 +1203,6 @@ place order from quote with payment method</p></div>
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -1669,7 +1227,6 @@ place order from quote with payment method</p></div>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_basket_line">get_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.create_basket_line">create_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.update_basket_line">update_basket_line</a></code></li>
-<li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.add_part_requirements_to_basket_line">add_part_requirements_to_basket_line</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_materials" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_materials">get_materials</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.get_products" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.get_products">get_products</a></code></li>
 <li><code><a title="push_to_3yourmind.api.user_panel.UserPanelAPI.upload_cad_file" href="#push_to_3yourmind.api.user_panel.UserPanelAPI.upload_cad_file">upload_cad_file</a></code></li>
@@ -1698,7 +1255,7 @@ place order from quote with payment method</p></div>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
 </footer>
 </body>
 </html>

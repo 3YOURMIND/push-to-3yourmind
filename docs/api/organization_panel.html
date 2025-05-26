@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.6">
-<title>push_to_3yourmind.types API documentation</title>
-<meta name="description" content="This module contains NoValue class and type aliases for type annotations">
+<title>push_to_3yourmind.api.organization_panel API documentation</title>
+<meta name="description" content="Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -33,10 +34,11 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>push_to_3yourmind.types</code></h1>
+<h1 class="title">Module <code>push_to_3yourmind.api.organization_panel</code></h1>
 </header>
 <section id="section-intro">
-<p>This module contains NoValue class and type aliases for type annotations</p>
+<p>Groups API functionality from the User Panel, such as creating/updating baskets,
+placing orders, making requests for quotes, ordering quotes etc.</p>
 </section>
 <section>
 </section>
@@ -45,53 +47,6 @@ el.replaceWith(d);
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-classes">Classes</h2>
-<dl>
-<dt id="push_to_3yourmind.types.NoValue"><code class="flex name class">
-<span>class <span class="ident">NoValue</span></span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class NoValue:
-    &#34;&#34;&#34;
-    Some class methods accept arguments that are optional. Skipping them means
-    &#34;no data changed&#34; and will lead to not sending them to the 3YD API. To skip such an
-    argument give it a `NoValue` value.
-
-    For example, `client.my_profile.set_preferences` can accept 4 arguments:
-    country, currency, language, unit. If you need to update user&#39;s unit but leave other
-    settings unchanged:
-
-    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=NoValue, currency=NoValue, language=NoValue)
-    # or shorter
-    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;)
-
-    The following:
-
-    &gt;&gt;&gt; client.my_profile.set_preferences(unit=&#34;inch&#34;, country=None, currency=None, language=None)
-
-    ... it will mean that you want to set user&#39;s country, currency and language setting to NULL.
-    &#34;&#34;&#34;</code></pre>
-</details>
-<div class="desc"><p>Some class methods accept arguments that are optional. Skipping them means
-"no data changed" and will lead to not sending them to the 3YD API. To skip such an
-argument give it a <code><a title="push_to_3yourmind.types.NoValue" href="#push_to_3yourmind.types.NoValue">NoValue</a></code> value.</p>
-<p>For example, <code>client.my_profile.set_preferences</code> can accept 4 arguments:
-country, currency, language, unit. If you need to update user's unit but leave other
-settings unchanged:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;, country=NoValue, currency=NoValue, language=NoValue)
-# or shorter
-&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;)
-</code></pre>
-<p>The following:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; client.my_profile.set_preferences(unit=&quot;inch&quot;, country=None, currency=None, language=None)
-</code></pre>
-<p>&hellip; it will mean that you want to set user's country, currency and language setting to NULL.</p></div>
-</dd>
-</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -101,14 +56,7 @@ settings unchanged:</p>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="push_to_3yourmind" href="index.html">push_to_3yourmind</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="push_to_3yourmind.types.NoValue" href="#push_to_3yourmind.types.NoValue">NoValue</a></code></h4>
-</li>
+<li><code><a title="push_to_3yourmind.api" href="index.html">push_to_3yourmind.api</a></code></li>
 </ul>
 </li>
 </ul>
