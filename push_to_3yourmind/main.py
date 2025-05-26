@@ -4,6 +4,7 @@ Main class/entrypoint declaration
 from push_to_3yourmind.api.base import BaseAPI
 from push_to_3yourmind.api.common import CommonAPI
 from push_to_3yourmind.api.my_profile import MyProfileAPI
+from push_to_3yourmind.api.organization_panel import OrganizationPanelAPI
 from push_to_3yourmind.api.user_panel import UserPanelAPI
 
 
@@ -33,3 +34,4 @@ class PushTo3YourmindAPI(BaseAPI):
         self.user_panel = UserPanelAPI(access_token, base_url)
         self.common = CommonAPI(access_token, base_url)
         self.my_profile = MyProfileAPI(access_token, base_url)
+        self.organization_panel = OrganizationPanelAPI(access_token, base_url)

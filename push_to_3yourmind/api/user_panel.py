@@ -48,8 +48,8 @@ class UserPanelAPI(BaseAPI):
             - count: total number of baskets, int
             - currentPage: page number, int
             - totalPages: total number of pages, int
-            - pageSize: baskets per page, int
-            - results: list of basket details
+            - pageSize: users per page, int
+            - results: list of user details
         """
 
         query = self._get_parameters(page=page, pageSize=page_size)
