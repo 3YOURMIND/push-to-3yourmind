@@ -1,14 +1,14 @@
 # push-to-3yourmind
 
 A Python SDK library to work with 3YOURMIND's platform API. It enables you to manage user profile
-information, push 3D Files, manipulate baskets, lines, get pricing information, place Orders 
+information, push 3D Files, manipulate baskets, lines, get pricing information, place Orders
 and Catalog Items.
 
 # Quickstart
 
 ## Requirements
 
-Python >= 3.6
+Python >= 3.12
 
 ## Create access token for your user
 
@@ -25,12 +25,12 @@ Open `/admin/auth/user/`, and click "Create token" in the user list.
 ```python
 from push_to_3yourmind import PushTo3YourmindAPI
 client = PushTo3YourmindAPI(
-    access_token="QWERTY123456789", 
+    access_token="QWERTY123456789",
     base_url="http://<domain-name>",
 )
 ```
 
-### Get or set current user's info 
+### Get or set current user's info
 
 ```python
 profile_info = client.my_profile.get_profile()
@@ -47,7 +47,7 @@ client.my_profile.set_preferences(unit="inch")
 ```python
 # get current user's basket list
 baskets = client.user_panel.get_baskets()
-# or 
+# or
 basket = client.user_panel.get_basket(basket_id=6)
 ```
 
@@ -71,7 +71,6 @@ client.user_panel.create_line_with_cad_file_and_product(
 [Common API](https://3yourmind.github.io/push-to-3yourmind/api/common.html)
 
 [there is more](https://3yourmind.github.io/push-to-3yourmind/)
-
 
 # Documentation generation
 
