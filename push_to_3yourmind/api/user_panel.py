@@ -27,8 +27,8 @@ class UserPanelAPI(BaseAPI):
         CHECK_FILE_STATUS_DELAY: Delay between status check requests, in seconds
     """
 
-    CHECK_FILE_STATUS_MAX_ATTEMPTS = 60
-    CHECK_FILE_STATUS_DELAY = 0.5  # seconds
+    CHECK_FILE_STATUS_MAX_ATTEMPTS = 120
+    CHECK_FILE_STATUS_DELAY = 1.2  # seconds
 
     def get_baskets(
         self,
@@ -128,15 +128,15 @@ class UserPanelAPI(BaseAPI):
         line_id: int,
         quantity: types.OptionalInteger = types.NoValue,
         product_id: types.OptionalInteger = types.NoValue,
-        # post_processings: t.Sequence[types.PostProcessingConfig] = (),
+        post_processings: t.Sequence[types.PostProcessingConfig] = (),
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
 
-        # if post_processings:
-        #     post_processings = [
-        #         {"postProcessingId": pp.post_processing_id, "colorId": pp.color_id}
-        #         for pp in post_processings
-        #     ]
+        if post_processings:
+            post_processings = [
+                {"postProcessingId": pp.post_processing_id, "colorId": pp.color_id}
+                for pp in post_processings
+            ]
         if isinstance(preferred_due_date, datetime.date):
             preferred_due_date = preferred_due_date.strftime("%Y-%m-%d")
         json = self._get_parameters(
@@ -149,23 +149,23 @@ class UserPanelAPI(BaseAPI):
             "PATCH", f"user-panel/baskets/{basket_id}/lines/{line_id}/", json=json
         )
 
-    # def add_part_requirements_to_basket_line(
-    #         self,
-    #         *,
-    #         line_id: int,
-    #         form_data: types.FormData,
-    # ):
-    #     json = {
-    #         "formId": form_data.form_id,
-    #         "fields": [
-    #             {"formFieldId": field.form_field_id, "value": field.value} 
-    #             for field in form_data.fields
-    #         ]
-    #     }
-    #     return self._request(
-    #         "POST", f"user-panel/forms/basket-line/{line_id}/",
-    #         json=json,
-    #     )
+    def add_part_requirements_to_basket_line(
+            self,
+            *,
+            line_id: int,
+            form_data: types.FormData,
+    ):
+        json = {
+            "formId": form_data.form_id,
+            "fields": [
+                {"formFieldId": field.form_field_id, "value": field.value}
+                for field in form_data.fields
+            ]
+        }
+        return self._request(
+            "POST", f"user-panel/forms/basket-line/{line_id}/",
+            json=json,
+        )
 
     def get_materials(
         self, *, basket_id: int, line_id: int
@@ -194,7 +194,7 @@ class UserPanelAPI(BaseAPI):
             params=query,
         )
 
-    def upload_cad_file(
+    def upload_cad_file_to_basket(
         self,
         *,
         basket_id: int,
@@ -204,6 +204,20 @@ class UserPanelAPI(BaseAPI):
     ) -> types.ResponseDict:
 
         data = self._get_parameters(basket_id=basket_id, unit=unit, line_id=line_id)
+        cad_file_contents = utils.extract_file_content(cad_file)
+
+        return self._request(
+            "POST", f"/upload/", data=data, files={"file": cad_file_contents}
+        )
+
+    def upload_cad_file(
+        self,
+        *,
+        unit: types.Unit,
+        cad_file: types.CadFileSpecifier,
+    ) -> types.ResponseDict:
+
+        data = self._get_parameters(unit=unit)
         cad_file_contents = utils.extract_file_content(cad_file)
 
         return self._request(
@@ -221,14 +235,14 @@ class UserPanelAPI(BaseAPI):
         preferred_due_date: types.OptionalDate = types.NoValue,
     ) -> types.ResponseDict:
         preferences = self._request("GET", "my-profile/preferences/")
-        unit = preferences["unit"]
+        unit: types.Unit = preferences["unit"]
 
         line_response = self.create_basket_line(basket_id=basket_id)
         line_id = line_response["id"]
-        self.upload_cad_file(
+        upload = self.upload_cad_file_to_basket(
             basket_id=basket_id, line_id=line_id, unit=unit, cad_file=cad_file
         )
-        self.check_uploaded_file_status(basket_id=basket_id, line_id=line_id)
+        self.wait_for_analysis(upload["uuid"])
 
         return self.update_basket_line(
             basket_id=basket_id,
@@ -239,18 +253,15 @@ class UserPanelAPI(BaseAPI):
             preferred_due_date=preferred_due_date,
         )
 
-    def check_uploaded_file_status(
+    def wait_for_analysis(
         self,
         *,
-        basket_id: int,
-        line_id: int,
+        file_uuid: str,
     ) -> None:
         max_attempts = self.CHECK_FILE_STATUS_MAX_ATTEMPTS
         for attempt_number in range(max_attempts):
             logger.debug(f"Checking file status {attempt_number}/{max_attempts}")
-            response = self._request(
-                "GET", f"user-panel/baskets/{basket_id}/lines/{line_id}/file-status/"
-            )
+            response = self._request("GET", f"files/status/{file_uuid}/")
             response_content = response.get("status")
             if response_content == "analysing":
                 time.sleep(self.CHECK_FILE_STATUS_DELAY)
@@ -260,6 +271,8 @@ class UserPanelAPI(BaseAPI):
                 return
             else:
                 raise exceptions.FileAnalysisError()
+
+        raise exceptions.FileAnalysisError()
 
     def create_request_for_quote(
         self, *, basket_id: int, supplier_id: int, message: str
@@ -402,7 +415,7 @@ class UserPanelAPI(BaseAPI):
             params=query,
         )
 
-    def create_catalog_item(self, basket_line_id: int) -> types.ResponseDict:
+    def create_catalog_item_from_basket_line(self, basket_line_id: int) -> types.ResponseDict:
         return self._request(
             "POST",
             "user-panel/catalog/",
@@ -419,4 +432,34 @@ class UserPanelAPI(BaseAPI):
             "POST",
             f"user-panel/catalog/{catalog_item_id}/attachments/",
             files={"file": attachment_file_contents},
+        )
+
+    def create_catalog_item(
+        self,
+        detailed_description: t.Optional[str],
+        partner_id: t.Optional[int],
+        post_processing_product_ids: list[int],
+        product_id: int,
+        reference: t.Optional[str],
+        short_description: t.Optional[str],
+        status: t.Literal['published', 'unpublished'],
+        stl_file_uuid: str,
+        technology_id: int,
+        title: str,
+    ):
+        return self._request(
+            "POST",
+            "user-panel/catalog/",
+            json={
+               	"detailedDescription": detailed_description,
+                "partnerId": partner_id,
+               	"postProcessingProductIds": post_processing_product_ids,
+               	"productId": product_id,
+               	"reference": reference,
+               	"shortDescription": short_description,
+               	"status": status,
+               	"stlFileUuid": stl_file_uuid,
+               	"technologyId": technology_id,
+               	"title": title,
+            }
         )

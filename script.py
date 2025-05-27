@@ -1,3 +1,5 @@
+from time import localtime
+from push_to_3yourmind.exceptions import FileAnalysisError
 import csv
 from dataclasses import dataclass
 import io
@@ -5,6 +7,8 @@ import logging
 import typing as t
 
 import push_to_3yourmind
+from venv import create
+from push_to_3yourmind.api import user_panel
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -21,11 +25,17 @@ as well.
 
 @dataclass
 class ItemData:
-    cad_file: str
+    detailed_description: t.Optional[str]
+    partner_id: t.Optional[int]
+    post_processing_product_ids: list[int]
     product_id: int
-    post_processings: push_to_3yourmind.td.PostProcessingConfig
-    part_requirements: t.Optional[push_to_3yourmind.td.FormData]
-    attachments: t.Optional[t.Sequence[str]]
+    reference: t.Optional[str]
+    short_description: t.Optional[str]
+    status: t.Literal['published', 'unpublished']
+    stl_file_uuid: str
+    technology_id: int
+    title: str
+    attachments: list[str]
 
 
 class MapperException(Exception):
@@ -48,61 +58,37 @@ class ImportCatalogClient:
             access_token=access_token,
             base_url=base_url,
         )
-        
-    def list_form_details(self):
-        return self.client.common.get_forms()
-        
-    def create_basket(self):
-        return self.client.user_panel.create_basket()
 
-    def create_basket_item(
-            self,
-            *,
-            basket_id: int,
-            file: t.Union[str, io.BytesIO],
-            product_id: int,
-            post_processings: t.List[push_to_3yourmind.td.PostProcessingConfig] = (),
-            part_requirements: t.Optional[push_to_3yourmind.td.FormData] = None,
-    ):
-        line = self.client.user_panel.create_line_with_cad_file_and_product(
-            basket_id=basket_id,
-            cad_file=file,
-            quantity=1,
-            product_id=product_id,
-            # post_processings=post_processings,
-        )
-        if part_requirements is not None:
-            self.client.user_panel.add_part_requirements_to_basket_line(
-                line_id=line["id"],
-                form_data=part_requirements,
-            )
-        return line
-    
-    def create_catalog_item(self, *, basket_line_id: int):
-        return self.client.user_panel.create_catalog_item(
-            basket_line_id=basket_line_id,
-        )
+    def create_catalog_item(self, item: ItemData):
+    	return self.client.user_panel.create_catalog_item(
+	        detailed_description=item.detailed_description,
+	        partner_id=item.partner_id,
+	        post_processing_product_ids=item.post_processing_product_ids,
+	        product_id=item.product_id,
+	        reference=item.reference,
+	        short_description=item.short_description,
+	        status=item.status,
+	        stl_file_uuid=item.stl_file_uuid,
+	        technology_id=item.technology_id,
+	        title=item.title,
+    	)
 
     def add_attachments_to_catalog_item(
             self,
             catalog_item_id: int,
             attachment: t.Union[str, io.BytesIO],
     ):
-        self.client.user_panel.upload_catalog_item_attachment(
+        return self.client.user_panel.upload_catalog_item_attachment(
             catalog_item_id=catalog_item_id,
             attachment_file=attachment,
         )
 
-    def delete_basket(self, basket_id: int):
-        # Clean up helper basket
-        self.client.user_panel.delete_basket(basket_id=basket_id)
-
 
 api_client = ImportCatalogClient(
-    access_token="",
-    base_url="",
+    access_token="7b43852293180f3f5be9cc4194038607ecb873e6",
+    base_url="http://multi.my.3yd",
 )
-        
+
 
 def import_catalog_items(csv_path: str, mapper: MapperFunction, is_dry_run=True) -> None:
     """
@@ -112,50 +98,39 @@ def import_catalog_items(csv_path: str, mapper: MapperFunction, is_dry_run=True)
     :param mapper: function that will transform a line in a csv file
                    and turns it into an ItemData struct
     """
-    basket = api_client.create_basket()
-
     logger.info("Start to read csv files")
     with open(csv_path) as f:
         csv_reader = csv.DictReader(f)
 
+
+
         for index, line in enumerate(csv_reader):
             logger.info(f"Reading line {index} of csv file")
+
+
+
             try:
                 item_data = mapper(line)
             except MapperException as e:
                 logger.error(f"Mapping Failed: {e}")
                 continue
 
-            try:
-                basket_line = api_client.create_basket_item(
-                    basket_id=basket["id"],
-                    file=item_data.cad_file,
-                    product_id=item_data.product_id,
-                    # part_requirements=item_data.part_requirements,
-                    # post_processings=item_data.post_processings,
-                )
-            except push_to_3yourmind.BasePushTo3YourmindAPIException as e:
-                logger.error(f"One Api call failed: {e}")
-                continue
-                
-            if not is_dry_run:
-                catalog_item = api_client.create_catalog_item(
-                    basket_line_id=basket_line["id"],
-                )
-                    
-                for attachment in item_data.attachments:
-                    print("attachment:", attachment)
-                    api_client.add_attachments_to_catalog_item(
-                        catalog_item_id=catalog_item["id"],
-                        attachment=attachment,
-                    )
+            catalog_item = api_client.create_catalog_item(
+               	item_data,
+            )
 
-    api_client.delete_basket(basket_id=basket["id"])
+            for attachment in item_data.attachments:
+                print("attachment:", attachment)
+                api_client.add_attachments_to_catalog_item(
+                    catalog_item_id=catalog_item["id"],
+                    attachment=attachment,
+                )
 
 
 if __name__ == "__main__":
     import os
     import pathlib
+    import time
 
     CSV_PATH = "./example.csv"
 
@@ -163,55 +138,38 @@ if __name__ == "__main__":
     BASE_DIR = pathlib.Path(os.getcwd())
     DATA_DIR = BASE_DIR / 'data'
 
-    # function_map = {
-    #     "aerospace": 4,
-    #     "automotive": 5,
-    # }
-    
-    # def create_form(function: t.Literal["aerospace", "automotive"]):
-    #     try:
-    #         function_id = function_map[function]
-    #     except KeyError:
-    #         raise MapperException("Unknown function")
-        
-    #     return push_to_3yourmind.td.FormData(
-    #         form_id=1,
-    #         fields=[
-    #             push_to_3yourmind.td.FormField(
-    #                 form_field_id=3,
-    #                 value=function_id
-    #             )
-    #         ]
-    #     )
-
     def mapper_func(data: dict) -> ItemData:
         """
         Takes one dict (parsed from a csv file in this example, but can
         come from anywhere) and turns it into data that is understandable
         by the client
         """
-        # if post_processing_ids := data["post_processing_ids"]:
-        #     post_processings = [
-        #         push_to_3yourmind.td.PostProcessingConfig(
-        #             post_processing_id=int(entry),
-        #             color_id=None,
-        #         )
-        #         for entry in post_processing_ids.split(" ")
-        #     ]
-        # else:
-        post_processings = []
 
-        # create part requirements from data
-        # part_requirements = create_form(data["function"])
-
-        cad_file_path = str(DATA_DIR / data["stl_file"])
+        cad_file_path = str(DATA_DIR / data["stl+AF8-file"])
         attachments = [str(DATA_DIR / file_name) for file_name in data["attachments"].split(" ") if file_name]
+
+        upload = api_client.client.user_panel.upload_cad_file(
+        	cad_file=cad_file_path,
+        	unit="mm",
+        )
+
+        try:
+        	api_client.client.user_panel.wait_for_analysis(file_uuid=upload["uuid"])
+        except push_to_3yourmind.FileAnalysisError:
+        	raise MapperException("File anlysis failed or took too long")
+
         return ItemData(
-            cad_file=cad_file_path,
-            product_id=data["productId"],
-            part_requirements=None,
-            post_processings=post_processings,
-            attachments=attachments,
+	        detailed_description=None,
+			partner_id=None,
+			post_processing_product_ids=[],
+			product_id=int(data["productId"]),
+			reference=data["reference"],
+			short_description=None,
+			status="published",
+			stl_file_uuid=upload["uuid"],
+			technology_id=int(data["technologyId"]),
+			title=data["title"],
+			attachments=attachments,
         )
 
     import_catalog_items(CSV_PATH, mapper_func, is_dry_run=False)
