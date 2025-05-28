@@ -85,8 +85,8 @@ class ImportCatalogClient:
 
 
 api_client = ImportCatalogClient(
-    access_token="7b43852293180f3f5be9cc4194038607ecb873e6",
-    base_url="http://multi.my.3yd",
+    access_token="7a625662655dd88c6e0d3bf8fe21ecf3b6ab5b77",
+    base_url="https://24-12-x.stage.3yourmind-internal.com",
 )
 
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
         by the client
         """
 
-        cad_file_path = str(DATA_DIR / data["stl+AF8-file"])
+        cad_file_path = str(DATA_DIR / data["stl_file"])
         attachments = [str(DATA_DIR / file_name) for file_name in data["attachments"].split(" ") if file_name]
 
         upload = api_client.client.user_panel.upload_cad_file(
@@ -160,11 +160,11 @@ if __name__ == "__main__":
 
         return ItemData(
 	        detailed_description=None,
-			partner_id=None,
+			partner_id=int(data["partnerId"]),
 			post_processing_product_ids=[],
 			product_id=int(data["productId"]),
 			reference=data["reference"],
-			short_description=None,
+			short_description=data["shortDescription"],
 			status="published",
 			stl_file_uuid=upload["uuid"],
 			technology_id=int(data["technologyId"]),
