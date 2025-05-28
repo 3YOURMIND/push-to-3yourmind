@@ -26,6 +26,7 @@ as well.
 @dataclass
 class ItemData:
     detailed_description: t.Optional[str]
+    label_names: list[str]
     partner_id: t.Optional[int]
     post_processing_product_ids: list[int]
     product_id: int
@@ -62,6 +63,7 @@ class ImportCatalogClient:
     def create_catalog_item(self, item: ItemData):
     	return self.client.user_panel.create_catalog_item(
 	        detailed_description=item.detailed_description,
+			label_names=item.label_names,
 	        partner_id=item.partner_id,
 	        post_processing_product_ids=item.post_processing_product_ids,
 	        product_id=item.product_id,
@@ -160,6 +162,7 @@ if __name__ == "__main__":
 
         return ItemData(
 	        detailed_description=None,
+			label_names=data["labelNames"].split(" "),
 			partner_id=int(data["partnerId"]),
 			post_processing_product_ids=[],
 			product_id=int(data["productId"]),

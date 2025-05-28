@@ -437,6 +437,7 @@ class UserPanelAPI(BaseAPI):
     def create_catalog_item(
         self,
         detailed_description: t.Optional[str],
+        label_names: list[str],
         partner_id: t.Optional[int],
         post_processing_product_ids: list[int],
         product_id: int,
@@ -452,6 +453,7 @@ class UserPanelAPI(BaseAPI):
             "user-panel/catalog/",
             json={
                	"detailedDescription": detailed_description,
+                "labelNames": label_names,
                 "partnerId": partner_id,
                	"postProcessingProductIds": post_processing_product_ids,
                	"productId": product_id,
